@@ -19,8 +19,8 @@ la rama master representara entregables presentables(documentos con estructura y
 <li> <b>Usar {} en vez de New Object()</b> </li>
 <li> <b>Omitir var keyword para declarar muchas variables</b> </li>
 <li> <b>Usar [] en vez de New Array()</b> </li>
-<li> <b></b> </li>
-<li>	<b>Adoptar la terminología de los clientes</b> </li>
-<li>	</li>
-<li>	</li>
+<li> <b>diseñar componentes reusables y reusarlos</b> </li>
+<li> <b>Adoptar la terminología de los clientes</b> </li>
+<li> <b>Nunca manipular el estado del componente directamente</b>	</li>
+<li> <b>no compartir el estado de un componente con sus ancestros en el arbol</b>	</li>
 </ol>
