@@ -6,3 +6,5 @@ Existiran dos carpetas:
 2. Implementacion: jerarquia de carpetas React Native y jerarquias de otros proyectos
 # Si quieres contribuir
 Por favor lee <a href="./CONTRIBUTING.md">CONTRIBUTING.md</a> para saber como hacerlo
+# Tablero Trello
+https://trello.com/b/rvlbuwBH/tareas-a-tiempo
