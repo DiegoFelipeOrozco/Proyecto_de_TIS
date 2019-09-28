@@ -8,7 +8,6 @@ La rama master representara entregables presentables(documentos con estructura y
 <li> <b>Colocar comentarios</b> </li>
 <li> <b>Utilice === en vez de ==</b> </li>
 <li> <b>no omitir los punto y coma(;) de las sentencias</b> </li>
-<li> <b>Coloque su script al final de la página</b> </li>
 <li> <b>Declara las variables fuera de la sentencia FOR</b> </li>
 <li> <b>Reducir variables globales</b> </li>
 <li> <b>Usar {} en vez de New Object()</b> </li>
@@ -16,8 +15,8 @@ La rama master representara entregables presentables(documentos con estructura y
 <li> <b>Usar [] en vez de New Array()</b> </li>
 <li> <b>Diseñar componentes reusables y reusarlos</b> </li>
 <li> <b>Adoptar la terminología de los clientes</b> </li>
-<li> <b>Nunca manipular el estado del componente directamente</b> </li>
-<li> <b>NO compartir el estado de un componente con sus ancestros en el arbol</b> </li>
+<li> <b>No manipule el estado de los componente directamente, use los metodos que provee React</b> </li>
+<li> <b>Usar la forma del metodo setState(function) para manejar la asincronia de los states y props</b> </li>
 <li> <b>Usar const y let en lugar de var</b> </li>
 <li> <b>Declarar las variables en la parte superior de su ámbito </b> </li>
 </ol>
