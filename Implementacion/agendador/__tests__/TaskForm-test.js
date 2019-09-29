@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import FormularioTarea from '../src/FormularioTarea';
+import TaskForm from '../src/TaskForm';
 import {inicioDia} from '../src/dateFunctions';
 import { fireEvent, NativeTestEvent, nativeEvent, render } from '@testing-library/react-native';
 
@@ -9,7 +9,7 @@ test('crea tarea', async ()=>{
 	function getTarea(tarea){
 		resultado = tarea;
 	}
-	const { getByTestId } = render(<FormularioTarea onSubmit={getTarea}/>);
+	const { getByTestId } = render(<TaskForm onSubmit={getTarea}/>);
 
 	const idTarea = "prueba tarea";
 	const fechaLimite = inicioDia(new Date());

@@ -1,6 +1,6 @@
 /**
   Componente que representa el formulario para la creacion de eventos. 
-  Recibe como propiedad el callback onSubmit(evento) que se ejecutara cuando el evento halla sido terminado de crear.
+  Recibe como propiedad el callback onSubmit(evento) que se ejecutara cuando la rutina halla sido terminado de crear.
   @Autor Diego Felipe Orozco Penagos
 */
 import React from 'react';
@@ -16,7 +16,7 @@ import generalStyles from '../App';
 import {timeToString} from './dateFunctions';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function FormularioEvento(props){
+export default function RoutineForm(props){
   const [error, indicarError] = React.useState(null);
   const [name, setName] = React.useState('');
   const [horaI, setHoraI] = React.useState({hora: new Date(), show: false});

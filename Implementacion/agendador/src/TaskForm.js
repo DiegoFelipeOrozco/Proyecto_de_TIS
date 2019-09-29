@@ -16,7 +16,7 @@ import generalStyles from '../App';
 import {dateToString, onDateSelected, inicioDia} from './dateFunctions';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function FormularioTarea(props){
+export default function TaskForm(props){
   const [error, indicarError] = React.useState(null);
   const [pickerState, setPickerState] = React.useState({fecha: new Date(), show: false});
   const [name, setName] = React.useState('');

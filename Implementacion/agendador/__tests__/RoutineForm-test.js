@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import FormularioEvento from '../src/FormularioEvento';
+import RoutineForm from '../src/RoutineForm';
 import { fireEvent, NativeTestEvent, nativeEvent, render } from '@testing-library/react-native';
 
 test('crea evento', async ()=>{
@@ -8,7 +8,7 @@ test('crea evento', async ()=>{
 	function getEvento(evento){
 		resultado = evento;
 	}
-	const { getByTestId, debug } = render(<FormularioEvento onSubmit={getEvento}/>);
+	const { getByTestId, debug } = render(<RoutineForm onSubmit={getEvento}/>);
 
 	const idTarea = "prueba evento";
 	const inicio = new Date();

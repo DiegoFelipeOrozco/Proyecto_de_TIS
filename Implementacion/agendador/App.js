@@ -19,8 +19,8 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
-import FormularioTarea from './src/FormularioTarea';
-import FormularioEvento from './src/FormularioEvento';
+import TaskForm from './src/TaskForm';
+import RoutineForm from './src/RoutineForm';
 
 export const generalStyles = StyleSheet.create({
   container: {
