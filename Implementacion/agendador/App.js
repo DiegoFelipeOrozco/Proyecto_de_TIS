@@ -51,26 +51,39 @@ const styles = StyleSheet.create({
   }
 });
 
+/**
+transforma una fecha dada a un String con el formato de la aplicacion.
+@param date: tipo Date
+*/
 function dateToString(date){
  return date.toLocaleDateString();
 }
+/**
+transforma una fecha dada a un String con el formato de hora de la aplicacion.
+@param time: tipo Date
+*/
 function timeToString(time){
-  return time.toLocaleTimeString()
+  return time.toTimeString().substr(0, 5);
 }
-function dateSelected(event, date, action, failAction=()=>{}){
+/**
+callback personalizado para el onChange de RNDateTimePicker, este valida todo lo que el componente deberia validar, pero que no hace
+*/
+function onDateSelected(event, date, action, failAction=()=>{}){
   if (date >= new Date() && date !== undefined){
     action(date);
   } else {
     failAction();
   }
 }
-function hoy(){
-  var hoy = new Date();
-  hoy.setHours(0);
-  hoy.setMinutes(0);
-  hoy.setSeconds(0);
-  hoy.setMilliseconds(0);
-  return hoy;
+/**
+devuelve la fecha pasada con horas, minutos, segundos y milisegundos en 0, el inicio del dia; util al momento de comparar fechas
+*/
+function inicioDia(dia){
+  dia.setHours(0);
+  dia.setMinutes(0);
+  dia.setSeconds(0);
+  dia.setMilliseconds(0);
+  return dia;
 }
 
 const App: () => React$Node = () => {
@@ -86,11 +99,11 @@ const App: () => React$Node = () => {
     return (
       <View style={styles.container}>
         <View style={{flex: 9}}>
-          {ocupaciones.map((item)=>{
-              if (item.limite){
-                return (<Text>{'id: ' + item.id + ', fecha limite: ' + dateToString(item.limite)}</Text>);
+          {ocupaciones.map((ocup)=>{
+              if (ocup.limite){
+                return (<Text key={ocup.key}>{'id: ' + ocup.name + ', fecha limite: ' + dateToString(ocup.limite)}</Text>);
               } else {
-                return (<Text>{'id: ' + item.id + ', hora inicio: ' + timeToString(item.inicio) + ', hora fin: ' + timeToString(item.fin)}</Text>);
+                return (<Text key={ocup.key}>{'id: ' + ocup.name + ', hora inicio: ' + ocup.horaI + ', hora fin: ' + ocup.horaF}</Text>);
               }
             })
           }
@@ -112,21 +125,16 @@ const App: () => React$Node = () => {
 
 export function FormularioTarea(props){
   const [error, indicarError] = React.useState(null);
-  const [showPicker, setShowPicker] = React.useState(false);
-  const [json, setJson] = React.useState({
-    id: '',
-    limite: hoy(),
-    //prioridad: NaN
-  });
+  //const [showPicker, setShowPicker] = React.useState(false);
+  const [pickerState, setPickerState] = React.useState({fecha: new Date(), show: false});
+  const [name, setName] = React.useState('');
 
   function submitTarea(){
-    if (json.id.length !== 0){
-      //validaciones de campos
-      props.onSubmit(json);
-    } else if (json.limite === undefined){
-      indicarError(<Text style={styles.errors}>debe indicar la fecha limite para terminar la tarea</Text>);
+    //validaciones de campos
+    if (name.trim() === ''){
+      indicarError(<Text style={styles.errors}>debe indicar el nombre de la tarea</Text>);
     } else {
-      indicarError(<Text style={styles.errors}>debe indicar el id de la tarea</Text>);
+      props.onSubmit({key: name, name: name, limite: inicioDia(pickerState.fecha)});
     }
   }
 
@@ -134,16 +142,16 @@ export function FormularioTarea(props){
     <View style={{flex: 1, justifyContent: 'center'}}>
       {error}
       <Text style={styles.visualViews}>nombre*</Text>
-      <TextInput style={StyleSheet.flatten([styles.visualViews, styles.borderBlue])} onChangeText={id => {json.id = id}} testID='nombre'/>
-      <Button title={'fecha: ' + dateToString(json.limite)} onPress={()=>setShowPicker(true)} testID='fecha'/>
+      <TextInput style={StyleSheet.flatten([styles.visualViews, styles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
+      <Button title={'fecha: ' + dateToString(pickerState.fecha)} onPress={()=>setPickerState(fecha=>({...fecha, show: true}))} testID='fecha'/>
       <View style={styles.separador}></View>
       <Button title='Terminado' onPress={()=>submitTarea()} testID='submit'/>
-      {showPicker && <DateTimePicker 
-                          value={json.limite | hoy()}
+      {pickerState.show && <DateTimePicker 
+                          value={pickerState.fecha | new Date()}
                           mode='date'
                           display='default'
                           minimumDate={new Date()}
-                          onChange={(event, date)=>{dateSelected(event, date, (date)=>{json.limite=date});setShowPicker(false)}} 
+                          onChange={(event, date)=>onDateSelected(event, date, (date)=>setPickerState({fecha:date, show: false}))} 
                           testID='calendar'/>
       }
     </View>
@@ -152,50 +160,50 @@ export function FormularioTarea(props){
 
 export function FormularioEvento(props){
   const [error, indicarError] = React.useState(null);
-  const [showPickerInicio, setShowPickerInicio] = React.useState(false);
-  const [showPickerFin, setShowPickerFin] = React.useState(false);
-  const [json, setJson] = React.useState({
-    id: '',
-    inicio: new Date(),
-    fin: new Date()
-  });
+  const [name, setName] = React.useState('');
+  const [horaI, setHoraI] = React.useState({hora: new Date(), show: false});
+  const [horaF, setHoraF] = React.useState({hora: new Date(), show: false});
 
   function submitEvento(){
     //validaciones de campos
-    if (json.id.length === 0){
-      indicarError(<Text style={StyleSheet.flatten([styles.visualViews, styles.errors])}>debe indicar el id de la tarea</Text>);
-    } else if (json.fin - json.inicio <= 0){
+    if (name.trim() === ''){
+      indicarError(<Text style={StyleSheet.flatten([styles.visualViews, styles.errors])}>debe indicar el nombre del evento</Text>);
+    } else if (horaF.hora - horaI.hora <= 0){
       indicarError(<Text style={StyleSheet.flatten([styles.visualViews, styles.errors])}>La hora de inicio debe ser menor ni igual a la hora de fin</Text>)
     } else {
-      props.onSubmit(json);
+      props.onSubmit({
+        key: name,
+        name: name,
+        horaI: timeToString(horaI.hora),
+        horaF: timeToString(horaF.hora)
+      });
     }
   }
-
   return(
     <View>
       {error}
       <Text style={styles.visualViews}>nombre*</Text>
-      <TextInput style={StyleSheet.flatten([styles.visualViews, styles.borderBlue])} onChangeText={id => {json.id = id}} testID='nombre'/>
-      <Button style={styles.visualViews} title={'Hora de inicio: ' + timeToString(json.inicio)} onPress={()=>setShowPickerInicio(true)} testID='horaInicio'/>
+      <TextInput style={StyleSheet.flatten([styles.visualViews, styles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
+      <Button style={styles.visualViews} title={'Hora de inicio: ' + timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
       <View style={styles.separador}></View>
-      <Button style={styles.visualViews} title={'Hora de fin: ' + timeToString(json.fin)} onPress={()=>setShowPickerFin(true)} testID='horaFin'/>
+      <Button style={styles.visualViews} title={'Hora de fin: ' + timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
       <View style={styles.separador}></View>
       <Button style={{marginTop: 10, marginBottom: 10}} title='Terminado' onPress={()=>submitEvento()} testID='submit'/>
-      {showPickerInicio && <DateTimePicker 
-                          value={json.inicio | new Date()}
+      {horaI.show && <DateTimePicker 
+                          value={horaI.hora | new Date()}
                           mode='time'
                           is24Hour={true}
                           display='default'
-                          onChange={(event, date=new Date())=>{json.inicio=date;setShowPickerInicio(false)}} 
+                          onChange={(event, time=new Date())=>{setHoraI({hora: time, show: false})}} 
                           testID='calendarI'/>
       }
-      {showPickerFin && <DateTimePicker 
-                          value={json.fin | new Date()}
+      {horaF.show && <DateTimePicker 
+                          value={horaF.hora | new Date()}
                           mode='time'
                           is24Hour={true}
                           display='default'
-                          onChange={(event, date=new Date())=>{json.fin=date;setShowPickerFin(false)}} 
-                          testID='calerdarF'/>
+                          onChange={(event, time=new Date())=>{setHoraF({hora: time, show: false})}} 
+                          testID='calendarF'/>
       }
     </View>
   );

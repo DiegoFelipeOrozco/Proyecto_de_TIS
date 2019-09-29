@@ -19,53 +19,43 @@ test('crea tarea', async ()=>{
 	function getTarea(tarea){
 		resultado = tarea;
 	}
-	const { getByRole, getByTestId, getByDisplayValue, baseElement } = render(<FormularioTarea onSubmit={getTarea}/>);
+	const { getByTestId } = render(<FormularioTarea onSubmit={getTarea}/>);
 
 	const idTarea = "prueba tarea";
-	const fechaLimite = new Date(2030, 0, 1);
+	const fechaLimite = new Date();
 
 	fireEvent.changeText(getByTestId('nombre'), idTarea);
-	/*fireEvent.press(getByTestId('fecha'));
-	fireEvent.change(
-	  getByTestId('calendar'),
-	  new NativeTestEvent('change', { event: nativeEvent, date: fechaLimite })//seleccionando fecha
-  	);*/
+	fireEvent.press(getByTestId('fecha'));
+	//seleccionando una fecha
+	getByTestId('calendar').getProp('onChange')({type: 'set', nativeEvent: {timestamp: fechaLimite.setFullYear(2021, 0, 1)}}, fechaLimite);
+
 	fireEvent.press(getByTestId('submit'));
-	expect(resultado.id).toBe(idTarea);
-	//expect(resultado.limite).toBe(fechaLimite);
+	expect(resultado.name).toBe(idTarea);
+	expect(resultado.limite).toStrictEqual(fechaLimite);
 });
 test('crea evento', async ()=>{
 	var resultado = undefined;
-	function getEvento(tarea){
-		resultado = tarea;
+	function getEvento(evento){
+		resultado = evento;
 	}
-	const { getByTestId, baseElement } = render(<FormularioEvento onSubmit={getEvento}/>);
+	const { getByTestId, debug } = render(<FormularioEvento onSubmit={getEvento}/>);
 
 	const idTarea = "prueba evento";
 	const inicio = new Date();
-	inicio.setHours(8);
-	inicio.setMinutes(0);
-	inicio.setSeconds(0);
 	const fin = new Date();
-	fin.setHours(10);
-	fin.setMinutes(0);
-	fin.setSeconds(0);
 
 	fireEvent.changeText(getByTestId('nombre'), idTarea);
-	/*fireEvent.press(getByTestId('horaInicio'));
-	fireEvent(
-	  getByTestId('calendarI'),
-	  new NativeTestEvent('onChange', { nativeEvent: { value: inicio } }),
-	);
+	fireEvent.press(getByTestId('horaInicio'));
+
+	getByTestId('calendarI').getProp('onChange')({type: 'set', nativeEvent: {timestamp: new Date().setHours(8, 0)}}, inicio);
+
 	fireEvent.press(getByTestId('horaFin'));
-	fireEvent(
-	  getByTestId('calendarF'),
-	  new NativeTestEvent('onChange', { nativeEvent: { value: fin } }),
-	);*/
+
+	getByTestId('calendarF').getProp('onChange')({type: 'set', nativeEvent: {timestamp: new Date().setHours(10, 0)}}, fin);
+
 	fireEvent.press(getByTestId('submit'));
-	expect(resultado).toBe(undefined);
-	//expect(resultado.id).toBe(idTarea);
-	/*expect(resultado.inicio).not.toBe(inicio);
-	expect(resultado.fin).not.toBe(fin);*/
+	expect(resultado.name).toBe(idTarea);
+	expect(resultado.horaI).toBe('08:00');
+	expect(resultado.horaF).toBe('10:00');
 });
 
