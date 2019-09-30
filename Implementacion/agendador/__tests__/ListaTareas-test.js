@@ -14,15 +14,16 @@ test('lista las tareas', async ()=>{
                 {key:'7', name:'Comprar comida del Perro', horaI:"20:00",horaF:"21:30"},
                 {key:'8', name:'Lavar Ropa', horaI:"21:30",horaF:"21:58"}];
 
-    var stringToMatch = "(";
-    for (var i = 0; i < tareas.length; i++) {
+    var stringToMatch = "";
+    for (var i = 0; i < tareas.length; i++)
     	stringToMatch += tareas[i].name + "|";
+    stringToMatch = stringToMatch.slice(0, -1);
+
+	const { container} = render(<ListaTareas tareas={tareas}/>);
+
+    const items = container.findAll(node=>node.type === 'Text');
+    expect(items).toHaveLength(tareas.length*3);
+    for (var i = 0; i < items.length; i++) {
+        expect(items[i].children[0].type).not.toBe('');
     }
-    stringToMatch = stringToMatch.slice(0, -1) + ")";
-
-	const { queryAllByText, debug } = render(<ListaTareas tareas={tareas}/>);
-
-	const textos = queryAllByText(new RegExp(stringToMatch, 'i'));
-
-	expect(textos.length).toBe(tareas.length);
 });
