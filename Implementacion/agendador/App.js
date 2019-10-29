@@ -6,7 +6,7 @@ import {
 import Header from './src/component/header.js';
 import ListaTareas from './src/component/listaTareas.js';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
+import { firebase } from '@react-native-firebase/database';
 
 import TaskForm from './src/TaskForm';
 import RoutineForm from './src/RoutineForm';
@@ -40,6 +40,20 @@ export const generalStyles = StyleSheet.create({
     width: 10
   }
 });
+var firebaseConfig = {
+    apiKey: "AIzaSyBi1mT12WRi5hbSo9NVDi1y6Tb0mU3bcvw",
+    authDomain: "tareasatiempo-3a12f.firebaseapp.com",
+    databaseURL: "https://tareasatiempo-3a12f.firebaseio.com",
+    projectId: "tareasatiempo-3a12f",
+    storageBucket: "tareasatiempo-3a12f.appspot.com",
+    messagingSenderId: "378551746284",
+    appId: "1:378551746284:web:14fca0f5620aba6e70efc9"
+  };
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+const ref = firebase.database().ref();
+ref.set({prop1:"hola", prop2:"mundo"});
 
 const App: () => React$Node = () => {
   return (
