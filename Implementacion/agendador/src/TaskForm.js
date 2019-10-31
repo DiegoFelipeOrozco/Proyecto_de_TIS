@@ -16,6 +16,7 @@ import generalStyles from '../App';
 import {dateToString, onDateSelected, inicioDia} from './dateFunctions';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DatabaseController from './database/controller';
+import {Tarea} from './database/entidades';
 
 export default function TaskForm(props){
   const [error, indicarError] = React.useState(null);
@@ -27,16 +28,14 @@ export default function TaskForm(props){
     if (name.trim() === ''){
       indicarError(<Text style={generalStyles.errors}>debe indicar el nombre de la tarea</Text>);
     } else {
-      new DatabaseController().insertTask({
-        name: name, 
-        limite: dateToString(inicioDia(pickerState.fecha))
-      }, (error)=>{
-        if(error){
-          //notificacion del error
-          indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la tarea</Text>);
-        } else {
-          props.onSubmit({key: name, name: name, limite: inicioDia(pickerState.fecha)});  
-        }
+      new DatabaseController().insertTask(new Tarea(name, inicioDia(pickerState.fecha)), 
+        (error)=>{
+          if(error){
+            //notificacion del error
+            indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la tarea</Text>);
+          } else {
+            props.onSubmit({key: name, name: name, limite: inicioDia(pickerState.fecha)});  
+          }
       });
     }
   }
