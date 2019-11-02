@@ -25,7 +25,7 @@ export default class DatabaseController{
 	retorna(Promise): la promesa de la operacion, sobre la cual tambien se pueden adjuntar callbacks manualmente
 	*/
 	insertTask(task: Tarea, onComplete: function){
-		return this.db.ref("/tasks/"+task.getNombre()).set(task.toSimpleObject(), onComplete);
+		return this.db.ref("/tasks/"+task.name).set(task.toSimpleObject(), onComplete);
 	}
 	/**
 	inserta una sola rutina a la base de datos
@@ -35,6 +35,6 @@ export default class DatabaseController{
 	retorna(Promise): la promesa de la operacion, sobre la cual tambien se pueden adjuntar callbacks manualmente
 	*/
 	insertRoutine(routine: Rutina, onComplete: function){
-		return this.db.ref("/routines/"+routine.getNombre()).set(routine.toSimpleObject(), onComplete);
+		return this.db.ref("/routines/"+routine.name).set(routine.toSimpleObject(), onComplete);
 	}
 }

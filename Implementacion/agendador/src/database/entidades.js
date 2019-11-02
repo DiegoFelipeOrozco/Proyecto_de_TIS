@@ -15,10 +15,6 @@ export class Tarea{
 		else 
 			this.fechaLimite = new Date(fechaLimite);
 	}
-
-	getNombre(){
-		return this.name;
-	}
 	/**
 	cambia el nombre por uno nuevo si este ultimo cumple las condiciones
 	parametros:
@@ -78,10 +74,6 @@ export class Rutina{
 		} else {
 			this.contenedor = new Date(contenedor);		
 		}
-	}
-
-	getNombre():string{
-		return this.name;
 	}
 	/**
 	cambia el nombre por uno nuevo si este ultimo cumple las condiciones
