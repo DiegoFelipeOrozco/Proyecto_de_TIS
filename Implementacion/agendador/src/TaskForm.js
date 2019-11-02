@@ -28,13 +28,14 @@ export default function TaskForm(props){
     if (name.trim() === ''){
       indicarError(<Text style={generalStyles.errors}>debe indicar el nombre de la tarea</Text>);
     } else {
-      new DatabaseController().insertTask(new Tarea(name, inicioDia(pickerState.fecha)), 
+      let nuevaTarea: Tarea = new Tarea(name, inicioDia(pickerState.fecha));
+      new DatabaseController().insertTask(nuevaTarea, 
         (error)=>{
           if(error){
             //notificacion del error
             indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la tarea</Text>);
           } else {
-            props.onSubmit({key: name, name: name, limite: inicioDia(pickerState.fecha)});  
+            props.onSubmit(nuevaTarea);  
           }
       });
     }

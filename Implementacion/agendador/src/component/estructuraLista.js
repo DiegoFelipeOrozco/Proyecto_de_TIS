@@ -5,6 +5,7 @@ import{
     Text,
     Image
 } from 'react-native';
+import {timeToString} from '../dateFunctions';
 
 function EstructuraLista(props){
     return(
@@ -13,10 +14,10 @@ function EstructuraLista(props){
                     <Text style={styles.txtName}>{props.data.name}</Text>
                     <View style={styles.blockLeftBottom}>
                         <View style={styles.itemHoraI}>
-                            <Text style={styles.txtHoraI}>{props.data.horaI}</Text>
+                            <Text style={styles.txtHoraI}>{timeToString(props.data.horaI)}</Text>
                         </View>
                         <View style={styles.itemHoraF}> 
-                            <Text style={styles.txtHoraF}>{props.data.horaF}</Text>
+                            <Text style={styles.txtHoraF}>{timeToString(props.data.horaF)}</Text>
                         </View>
                     </View>
                 </View>

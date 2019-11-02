@@ -45,10 +45,7 @@ export default function RoutineForm(props){
             //notificacion del error
             indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la rutina</Text>);
           } else {
-            props.onSubmit({
-              key: name,
-              ...nuevaRutina
-            });
+            props.onSubmit(nuevaRutina);
           }
       });
     }
