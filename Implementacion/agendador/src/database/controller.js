@@ -14,6 +14,7 @@ export default class DatabaseController{
 			this.db = firebase.database();
 		}catch(error){
 			firebase.initializeApp(firebaseConfig);
+			this.db = firebase.database();
 		}
 	}
 	/**

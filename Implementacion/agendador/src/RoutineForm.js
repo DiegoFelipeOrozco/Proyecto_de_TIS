@@ -16,6 +16,7 @@ import generalStyles from '../App';
 import {timeToString} from './dateFunctions';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DatabaseController from './database/controller';
+import {Rutina} from './database/entidades';
 
 export default function RoutineForm(props){
   const [error, indicarError] = React.useState(null);
@@ -30,22 +31,25 @@ export default function RoutineForm(props){
     } else if (horaF.hora - horaI.hora <= 0){
       indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>La hora de inicio debe ser menor ni igual a la hora de fin</Text>)
     } else {
-      new DatabaseController().insertRoutine({
-        name: name,
-        horaI: timeToString(horaI.hora),
-        horaF: timeToString(horaF.hora)
-      }, (error)=>{
-        if(error){
-          //notificacion del error
-          indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la rutina</Text>);
-        } else {
-          props.onSubmit({
-            key: name,
-            name: name,
-            horaI: timeToString(horaI.hora),
-            horaF: timeToString(horaF.hora)
-          });
-        }
+      let nuevaRutina: Rutina = new Rutina(
+          name,
+          horaI.hora,
+          horaF.hora,
+          7,//periodicidad semanal mientras se diseña la interfaz para el usuario
+          new Date()//el dia en que crea la rutina se toma como referencia, mientras
+        );
+      new DatabaseController().insertRoutine(
+        nuevaRutina, 
+        (error)=>{
+          if(error){
+            //notificacion del error
+            indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la rutina</Text>);
+          } else {
+            props.onSubmit({
+              key: name,
+              ...nuevaRutina
+            });
+          }
       });
     }
   }
