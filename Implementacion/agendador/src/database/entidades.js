@@ -1,6 +1,6 @@
 
 export class Tarea{
-	nombre: string;
+	name: string;
 	fechaLimite: Date;
 	/**
 	constructor principal para Tarea
@@ -9,7 +9,7 @@ export class Tarea{
 		fechaLimite(Date o number): fecha en la que debe estar terminada la tarea, puede ser dada en milisegundos
 	*/
 	constructor(nombre: string, fechaLimite){
-		this.nombre = nombre;
+		this.name = nombre;
 		if (fechaLimite instanceof Date)
 			this.fechaLimite = fechaLimite;
 		else 
@@ -17,7 +17,7 @@ export class Tarea{
 	}
 
 	getNombre(){
-		return this.nombre;
+		return this.name;
 	}
 	/**
 	cambia el nombre por uno nuevo si este ultimo cumple las condiciones
@@ -27,7 +27,7 @@ export class Tarea{
 	*/
 	setNombre(nuevoNombre):boolean{
 		if(nuevoNombre && nuevoNombre.trim().length > 0){
-			this.nombre = nuevoNombre;
+			this.name = nuevoNombre;
 			return true;
 		}
 		return false;
@@ -38,16 +38,16 @@ export class Tarea{
 	*/
 	toSimpleObject():Object{
 		return {
-			nombre: this.nombre,
+			name: this.name,
 			fechaLimite: this.fechaLimite.getTime()
-		}
+		};
 	}
 }
 
 export class Rutina{
-	nombre: string;
-	horaInicio: Date;
-	horaFin: Date;
+	name: string;
+	horaI: Date;
+	horaF: Date;
 	periodicidad: number;
 	contenedor: Date;
 	/**
@@ -60,18 +60,18 @@ export class Rutina{
 		contenedor(Date o number): dependiendo del indicador es que se considera solo una parte de la fecha en el contenedor para determinar cuando se ha cumplido el periodo, se puede indicar en milisegundos
 	*/
 	constructor(nombre: string,horaInicio, horaFin, periodicidad: number, contenedor){
-		this.nombre = nombre;
+		this.name = nombre;
 		this.periodicidad = periodicidad;
 
 		if (horaInicio instanceof Date) {
-			this.horaInicio = horaInicio;
+			this.horaI = horaInicio;
 		} else {
-			this.horaInicio = new Date(horaInicio);
+			this.horaI = new Date(horaInicio);
 		}
 		if (horaFin instanceof Date) {
-			this.horaFin = horaFin;
+			this.horaF = horaFin;
 		} else {
-			this.horaFin = new Date(horaFin);
+			this.horaF = new Date(horaFin);
 		}
 		if (contenedor instanceof Date) {
 			this.contenedor = contenedor;
@@ -81,7 +81,7 @@ export class Rutina{
 	}
 
 	getNombre():string{
-		return this.nombre;
+		return this.name;
 	}
 	/**
 	cambia el nombre por uno nuevo si este ultimo cumple las condiciones
@@ -91,7 +91,7 @@ export class Rutina{
 	*/
 	setNombre(nuevoNombre):boolean{
 		if(nuevoNombre && nuevoNombre.trim().length > 0){
-			this.nombre = nuevoNombre;
+			this.name = nuevoNombre;
 			return true;
 		}
 		return false;
@@ -102,11 +102,11 @@ export class Rutina{
 	*/
 	toSimpleObject(){
 		return {
-			nombre: this.nombre,
-			horaInicio: this.horaInicio.getTime(),
-			horaFin: this.horaFin.getTime(),
+			name: this.name,
+			horaI: this.horaI.getTime(),
+			horaF: this.horaF.getTime(),
 			periodicidad:this.periodicidad,
 			contenedor: this.contenedor.getTime()
-		}
+		};
 	}
 }
