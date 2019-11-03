@@ -38,6 +38,35 @@ export class Tarea{
 			fechaLimite: this.fechaLimite.getTime()
 		};
 	}
+	equals(obj): boolean{
+		if (obj instanceof Tarea){
+			return obj.name === this.name;
+		}
+		return false;
+	}
+	toString(): string{
+		if (this.dedicacion){
+			return this.name + '\r\nfecha limite:' + this.fechaLimite + '\r\ndedicacion de hoy:' + Math.round(this.dedicacion % 60) + ' hora(s),' + Math.round(this.dedicacion % 1 * 60) + ' minuto(s)' + Math.round(this.dedicacion % 1 * 60) + ' segundo(s)';
+		} else {
+			return this.name + '\r\nfecha limite:' + this.fechaLimite;
+		}
+	}
+	static asignarTiempos(tareas: Tarea[], tiempoDisponible: number){
+		for(let tarea of tareas) {
+			let numerador: number = 1;
+			let denominador: number  = 0;
+			for(let i = 0; i < tareas.length; i++) {
+				if(!tareas[i].equals(tarea)) {
+					numerador *= (tareas[i].fechaLimite.getTime() - Date.now()) / 3600000;
+				}
+			}
+			let aux = numerador*(tarea.fechaLimite.getTime() - Date.now()) / 3600000;
+			for(let k = 0; k < tareas.length; k++){
+				denominador += aux/((tareas[k].fechaLimite.getTime() - Date.now()) / 3600000);
+			}
+			tarea.dedicacion = numerador / denominador * tiempoDisponible;
+		}
+	}
 }
 
 export class Rutina{
