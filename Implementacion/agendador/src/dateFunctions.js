@@ -26,9 +26,6 @@ export function onDateSelected(event, date, action, failAction=()=>{}){
   devuelve la fecha pasada con horas, minutos, segundos y milisegundos en 0, el inicio del dia; util al momento de comparar fechas
 */
 export function inicioDia(dia){
-  dia.setHours(0);
-  dia.setMinutes(0);
-  dia.setSeconds(0);
-  dia.setMilliseconds(0);
+  dia.setHours(0, 0, 0, 0);
   return dia;
 }

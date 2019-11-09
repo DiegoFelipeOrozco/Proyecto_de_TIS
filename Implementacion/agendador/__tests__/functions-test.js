@@ -2,15 +2,16 @@ import React from 'react-native';
 import {Rutina, Tarea} from '../src/database/entidades';
 
 test('entidades operan sin problemas', async ()=>{
-	let fecha1 = new Date(2019, 10, 3, 6, 0, 0, 0);
-	let fecha2 = new Date(2019, 10, 3, 8, 0, 0, 0);
+	let hora1 = new Date(new Date().setHours(6));
+	let hora2 = new Date(new Date().setHours(8));
 
-	let rutina = new Rutina('rutina1 prueba', fecha1, fecha2, 7, new Date(2019, 10, 3));
+	let rutina = new Rutina('rutina1 prueba', hora1, hora2, 7, new Date());
 
-	let tarea1 = new Tarea('tarea1 prueba', new Date(2019, 11, 3));
-	let tarea2 = new Tarea('tarea2 prueba', new Date(2019, 10, 13));
-	let tarea3 = new Tarea('tarea3 prueba', new Date(2019, 10, 10));
-	let tarea4 = new Tarea('tarea4 prueba', new Date(2019, 10, 13));
+	let fechaRef = new Date();
+	let tarea1 = new Tarea('tarea1 prueba', new Date(fechaRef.getTime()+30*24*60*60*1000));//en un mes
+	let tarea2 = new Tarea('tarea2 prueba', new Date(fechaRef.getTime()+10*24*60*60*1000));//en 10 dias
+	let tarea3 = new Tarea('tarea3 prueba', new Date(fechaRef.getTime()+7*24*60*60*1000));//en una semana
+	let tarea4 = new Tarea('tarea4 prueba', new Date(fechaRef.getTime()+10*24*60*60*1000));//en 10 dias
 
 	let method = jest.fn((arg1)=>rutina.setNombre(arg1));
 	console.log(method('rutina1 cambio nombre'));
@@ -32,9 +33,12 @@ test('entidades operan sin problemas', async ()=>{
 
 	method = jest.fn((arg1, arg2)=>Tarea.asignarTiempos(arg1, arg2));
 	method([tarea1, tarea2, tarea3, tarea4], 24);
+	expect(method).toHaveReturned();
+	horasDiarias = 0;
 	for (let tarea of [tarea1, tarea2, tarea3, tarea4]){
 		console.log(tarea.toString());
+		horasDiarias+=tarea.dedicacion;
 	}
-	expect(method).toHaveReturned();
+	expect(horasDiarias).toBe(24);
 
 });

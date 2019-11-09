@@ -1,4 +1,4 @@
-
+import {dateToString} from '../dateFunctions';
 export class Tarea{
 	name: string;
 	fechaLimite: Date;
@@ -46,9 +46,9 @@ export class Tarea{
 	}
 	toString(): string{
 		if (this.dedicacion){
-			return this.name + '\r\nfecha limite:' + this.fechaLimite + '\r\ndedicacion de hoy:' + Math.round(this.dedicacion % 60) + ' hora(s),' + Math.round(this.dedicacion % 1 * 60) + ' minuto(s)' + Math.round(this.dedicacion % 1 * 60) + ' segundo(s)';
+			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite) + '\r\ndedicacion de hoy:' + Math.round(this.dedicacion) + ' hora(s),' + Math.floor((this.dedicacion%1)*60) + ' minuto(s),' + Math.round(((this.dedicacion%1)*60%1)*60) + ' segundo(s)';
 		} else {
-			return this.name + '\r\nfecha limite:' + this.fechaLimite;
+			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite);
 		}
 	}
 	static asignarTiempos(tareas: Tarea[], tiempoDisponible: number){
@@ -66,6 +66,12 @@ export class Tarea{
 			}
 			tarea.dedicacion = numerador / denominador * tiempoDisponible;
 		}
+	}
+	/**
+	genera una clave unica entre tareas
+	*/
+	generateKey(){
+		return this.name;
 	}
 }
 
@@ -129,5 +135,11 @@ export class Rutina{
 			periodicidad:this.periodicidad,
 			contenedor: this.contenedor.getTime()
 		};
+	}
+	/**
+	genera una clave unica entre rutinas
+	*/
+	generateKey(){
+		return this.name + this.horaI.getHours() + this.horaI.getMinutes() + this.horaI.getSeconds() + this.horaF.getHours() + this.horaF.getMinutes() + this.horaF.getSeconds();
 	}
 }
