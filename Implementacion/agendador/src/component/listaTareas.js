@@ -6,34 +6,26 @@ import{
     FlatList,
     Text
 } from 'react-native';
-import EstructuraLista from './estructuraLista.js'
+import EstructuraLista from './estructuraLista.js';
+import {Tarea} from '../database/entidades';
 
-class ListaTareas extends React.Component{
-    
-    constructor(props){
-        super(props);
-        this.state={
-            tareas: props.tareas
-        }
-    }
-    separador =()=>{
+export default function ListaTareas(props){
+    let separador =()=>{
         return(
             <View style={styles.separador}>
             </View>
         )
     }
-    render(){
-        return(
-            <View style={styles.body}>
-                    <FlatList
-                        data={this.state.tareas}
-                        renderItem={ ({item}) => <EstructuraLista data={item} />}
-                        ItemSeparatorComponent={this.separador}
-                        ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}
-                    ></FlatList>
-            </View>  
-        )
-    }    
+    return(
+        <View style={styles.body}>
+                <FlatList
+                    data={props.tareas}
+                    renderItem={ ({item}) => <EstructuraLista data={item} />}
+                    ItemSeparatorComponent={separador}
+                    ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}
+                ></FlatList>
+        </View>  
+    )   
 };
 
 const styles = StyleSheet.create({
@@ -49,5 +41,3 @@ const styles = StyleSheet.create({
         marginLeft:'10%'
     }
 });
-
-export default ListaTareas;
