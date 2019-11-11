@@ -46,7 +46,7 @@ export class Tarea{
 	}
 	toString(): string{
 		if (this.dedicacion){
-			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite) + '\r\ndedicacion de hoy:' + Math.round(this.dedicacion) + ' hora(s),' + Math.floor((this.dedicacion%1)*60) + ' minuto(s),' + Math.round(((this.dedicacion%1)*60%1)*60) + ' segundo(s)';
+			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite) + '\r\ndedicacion de hoy:' + Math.floor(this.dedicacion) + ' hora(s),' + Math.floor((this.dedicacion%1)*60) + ' minuto(s),' + Math.round(((this.dedicacion%1)*60%1)*60) + ' segundo(s)';
 		} else {
 			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite);
 		}
