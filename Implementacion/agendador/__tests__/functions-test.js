@@ -39,6 +39,6 @@ test('entidades operan sin problemas', async ()=>{
 		console.log(tarea.toString());
 		horasDiarias+=tarea.dedicacion;
 	}
-	expect(horasDiarias).toBe(24);
+	expect(Math.round(horasDiarias)).toBe(24);
 
 });

@@ -6,7 +6,8 @@ import{
     FlatList,
     Text
 } from 'react-native';
-import EstructuraLista from './estructuraLista.js'
+import EstructuraLista from './estructuraLista.js';
+import {Tarea} from '../database/entidades';
 
 class ListaTareas extends React.Component{
     
@@ -23,13 +24,15 @@ class ListaTareas extends React.Component{
         )
     }
     render(){
+        Tarea.asignarTiempos(this.props.tareas.filter((item)=>item instanceof Tarea));
         return(
             <View style={styles.body}>
                     <FlatList
-                        data={this.state.tareas}
+                        data={this.props.tareas}
                         renderItem={ ({item}) => <EstructuraLista data={item} />}
                         ItemSeparatorComponent={this.separador}
                         ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}
+                        keyExtractor={(item)=>item.name}
                     ></FlatList>
             </View>  
         )
