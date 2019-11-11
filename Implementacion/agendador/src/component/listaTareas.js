@@ -16,7 +16,7 @@ export default function ListaTareas(props){
             </View>
         )
     }
-    Tarea.asignarTiempos(this.props.tareas.filter((item)=>item instanceof Tarea));
+    Tarea.asignarTiempos(props.tareas.filter((item)=>item instanceof Tarea));
     return(
         <View style={styles.body}>
                 <FlatList
