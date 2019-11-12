@@ -7,9 +7,6 @@ import Header from './src/component/header.js';
 import ListaTareas from './src/component/listaTareas.js';
 import VistaRutinas from './src/component/VistaRutinas';
 
-import TaskForm from './src/TaskForm';
-import RoutineForm from './src/RoutineForm';
-
 export const generalStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -41,7 +38,7 @@ export const generalStyles = StyleSheet.create({
 });
 
 const App: () => React$Node = () => {
-  const [view, changeView] = React.useState(<ListaTareas/>);
+  const [view, changeView] = React.useState(<VistaRutinas/>);
   return (
     <View style={styles.container}>
       <Header/>
