@@ -8,6 +8,7 @@ import{
 } from 'react-native';
 import TaskForm from '../TaskForm';
 import {dateToString} from '../dateFunctions';
+import Header from './header.js';
 
 /**
 props:
@@ -49,6 +50,7 @@ export default function ListaTareas(props) {
 	const form = (<TaskForm onSubmit={(tarea)=>addTarea(tarea)}/>);
 	const main = (
 		<>
+			<Header titulo='Tareas'/>
 			<FlatList
 				data={tareas}
 				renderItem={renderItem}

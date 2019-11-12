@@ -6,14 +6,14 @@ import{
 	Text
 } from 'react-native';
 
-function Header(){
+function Header(props){
 	return(
 		<View style={styles.header}>
 			<View style={styles.headerLeft}>
 			  <Image source={require('../../images/logoHeader.png')} style={styles.logoHeader}/>
 			</View>
 			<View style={styles.headerRight}>
-				<Text style={styles.textLogo}>Tareas</Text>
+				<Text style={styles.textLogo}>{props.titulo}</Text>
 			</View>
 		</View>
 	);

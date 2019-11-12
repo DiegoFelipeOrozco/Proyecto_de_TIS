@@ -2,13 +2,13 @@ import React from 'react';
 import{
 	StyleSheet,
 	View,
-	ScrollView,
 	FlatList,
 	Text,
 	Button,
 } from 'react-native';
 import EstructuraLista from './estructuraLista.js'
 import RoutineForm from '../RoutineForm';
+import Header from './header.js';
 
 /**
 props:
@@ -40,6 +40,7 @@ export default function VistaRutinas(props) {
 	const form = (<RoutineForm onSubmit={(rutina)=>addRutina(rutina)}/>);
 	const main = (
 		<>
+			<Header titulo='Rutinas'/>
 			<FlatList
 				data={rutinas}
 				renderItem={ ({item}) => <EstructuraLista data={item}/>}
