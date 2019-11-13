@@ -5,19 +5,19 @@ import{
 	Text,
 	Image
 } from 'react-native';
-import {timeToString} from '../dateFunctions';
+import {timeToString, timeToLongString, dayToLiteralString} from '../dateFunctions';
 
 function EstructuraLista(props){
 	return(
 		<View style={styles.item}>
 			<View style={styles.blockLeft}>
-				<Text style={styles.txtName}>{props.data.name}</Text>
+				<Text style={props.data.hueco?styles.txtHoraF:styles.txtName}>{props.data.name}</Text>
 				<View style={styles.blockLeftBottom}>
-					<View style={styles.itemHoraI}>
-						<Text style={styles.txtHoraI}>{timeToString(props.data.horaI)}</Text>
-					</View>
 					<View style={styles.itemHoraF}> 
+						<Text style={styles.txtHoraF}>{timeToString(props.data.horaI)}</Text>
 						<Text style={styles.txtHoraF}>{timeToString(props.data.horaF)}</Text>
+						<Text style={styles.txtHoraF}>{timeToLongString(props.data.horaF-props.data.horaI)}</Text>
+						{props.data.days?<Text style={styles.txtHoraF}>{props.data.days.reduce((string, day, i)=>string+dayToLiteralString(day)+(i===props.data.days.length-1?'':', '), 'Tambien el ')}</Text>:null}
 					</View>
 				</View>
 			</View>

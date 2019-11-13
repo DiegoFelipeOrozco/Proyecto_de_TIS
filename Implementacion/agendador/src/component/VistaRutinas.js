@@ -9,6 +9,7 @@ import{
 import EstructuraLista from './estructuraLista.js'
 import RoutineForm from '../RoutineForm';
 import Header from './header.js';
+import {dayToLiteralString} from '../dateFunctions';
 
 /**
 props:
@@ -34,30 +35,32 @@ export default function VistaRutinas(props) {
 	let delRutinas2 = function(selector){
 		setRutinas(rutinas.filter((item, index)=>!selector(item, index)).sort((item1, item2)=>item1.horaI-item2.horaI));    
 	};
+	let buildData = function(dia){
+		let rutinas$huecos = [];
+		if (rutinas.length > 0){
+			let inicioHueco = new Date(rutinas[0].horaI).setHours(0, 0);
+			rutinas.filter((item)=>item.days.includes(dia)).forEach((item, i)=>{
+				if (item.horaI - inicioHueco > 0){
+					rutinas$huecos.push({hueco:true, name: 'espacio libre', horaI: new Date(inicioHueco), horaF: item.horaI});
+				}
+				rutinas$huecos.push(item);
+				inicioHueco = item.horaF;
+			});
+			if (new Date(inicioHueco).setHours(23,59,0,0) - inicioHueco > 0){
+				rutinas$huecos.push({hueco:true, name: 'espacio libre', horaI: new Date(inicioHueco), horaF: new Date(new Date(inicioHueco).setHours(23,59,0,0)), hueco:true});
+			}
+		}
+		return rutinas$huecos;
+	}
 	React.useEffect(()=>{
 		changeView(null);
 	}, [rutinas]);
-
-	let rutinas$huecos = [];
-	if (rutinas.length > 0){
-		let inicioHueco = new Date(rutinas[0].horaI).setHours(0, 0);
-		rutinas.forEach((item, i)=>{
-			if (item.horaI - inicioHueco > 0){
-				rutinas$huecos.push({name: 'espacio libre', horaI: new Date(inicioHueco), horaF: item.horaI});
-			}
-			rutinas$huecos.push(item);
-			inicioHueco = item.horaF;
-		});
-		if (new Date(inicioHueco).setHours(23,59,0,0) - inicioHueco > 0){
-			rutinas$huecos.push({name: 'espacio libre', horaI: new Date(inicioHueco), horaF: new Date(new Date(inicioHueco).setHours(23,59,0,0))});
-		}
-	}
 	const form = (<RoutineForm onSubmit={(rutina)=>addRutina(rutina)}/>);
 	const main = (
 		<>
-			<Header titulo='Rutinas'/>
+			<Header titulo={'Rutinas('+dayToLiteralString(new Date().getDay())+')'}/>
 			<FlatList
-				data={rutinas$huecos}
+				data={buildData(new Date().getDay())}
 				renderItem={ ({item}) => <EstructuraLista data={item}/>}
 				ItemSeparatorComponent={()=><View style={styles.separador}></View>}
 				ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}

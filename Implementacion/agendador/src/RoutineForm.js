@@ -33,7 +33,8 @@ export default function RoutineForm(props){
         key: name,
         name: name,
         horaI: horaI.hora,
-        horaF: horaF.hora
+        horaF: horaF.hora,
+        days: [1,2,3,4,5,6,7]
       });
     }
   }
