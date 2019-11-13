@@ -32,12 +32,12 @@ export default function RoutineForm(props){
       indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>La hora de inicio debe ser menor ni igual a la hora de fin</Text>)
     } else {
       let nuevaRutina: Rutina = new Rutina(
-          name,
-          horaI.hora,
-          horaF.hora,
-          7,//periodicidad semanal mientras se diseña la interfaz para el usuario
-          new Date()//el dia en que crea la rutina se toma como referencia, mientras
-        );
+        name,
+        horaI.hora,
+        horaF.hora,
+        7,//periodicidad semanal mientras se diseña la interfaz para el usuario
+        [1,2,3,4,5,6,7]
+      );
       new DatabaseController().insertRoutine(
         nuevaRutina, 
         (error)=>{
@@ -65,7 +65,7 @@ export default function RoutineForm(props){
                           mode='time'
                           is24Hour={true}
                           display='default'
-                          onChange={(event, time=new Date())=>{setHoraI({hora: time, show: false})}} 
+                          onChange={(event, time=new Date())=>{setHoraI({hora: new Date(time.setSeconds(0, 0)), show: false})}} 
                           testID='calendarI'/>
       }
       {horaF.show && <DateTimePicker 
@@ -73,7 +73,7 @@ export default function RoutineForm(props){
                           mode='time'
                           is24Hour={true}
                           display='default'
-                          onChange={(event, time=new Date())=>{setHoraF({hora: time, show: false})}} 
+                          onChange={(event, time=new Date())=>{setHoraF({hora: new Date(time.setSeconds(0, 0)), show: false})}} 
                           testID='calendarF'/>
       }
     </View>
