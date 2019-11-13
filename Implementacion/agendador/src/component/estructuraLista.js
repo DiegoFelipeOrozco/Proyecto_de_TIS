@@ -3,7 +3,8 @@ import{
 	StyleSheet,
 	View,
 	Text,
-	Image
+	Image,
+	Button,
 } from 'react-native';
 import {timeToString, timeToLongString, dayToLiteralString} from '../dateFunctions';
 
@@ -22,7 +23,7 @@ function EstructuraLista(props){
 				</View>
 			</View>
 			<View style={styles.blocRight} >
-				<Image source={require('../../images/logoTarea.png')} style={styles.logoEvento}/>
+				<Button title='eliminar'/>
 			</View>
 		</View>
 	);
