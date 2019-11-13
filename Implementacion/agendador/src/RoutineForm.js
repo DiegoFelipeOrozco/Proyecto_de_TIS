@@ -32,8 +32,9 @@ export default function RoutineForm(props){
       props.onSubmit({
         key: name,
         name: name,
-        horaI: timeToString(horaI.hora),
-        horaF: timeToString(horaF.hora)
+        horaI: horaI.hora,
+        horaF: horaF.hora,
+        days: [1,2,3,4,5,6,7]
       });
     }
   }
@@ -52,7 +53,7 @@ export default function RoutineForm(props){
                           mode='time'
                           is24Hour={true}
                           display='default'
-                          onChange={(event, time=new Date())=>{setHoraI({hora: time, show: false})}} 
+                          onChange={(event, time=new Date())=>{setHoraI({hora: new Date(time.setSeconds(0, 0)), show: false})}} 
                           testID='calendarI'/>
       }
       {horaF.show && <DateTimePicker 
@@ -60,7 +61,7 @@ export default function RoutineForm(props){
                           mode='time'
                           is24Hour={true}
                           display='default'
-                          onChange={(event, time=new Date())=>{setHoraF({hora: time, show: false})}} 
+                          onChange={(event, time=new Date())=>{setHoraF({hora: new Date(time.setSeconds(0, 0)), show: false})}} 
                           testID='calendarF'/>
       }
     </View>
