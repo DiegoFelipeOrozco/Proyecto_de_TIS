@@ -74,7 +74,7 @@ export default function VistaRutinas(props) {
 						<Text style={styles.txtHoraF}>{timeToString(item.horaI)}</Text>
 						<Text style={styles.txtHoraF}>{timeToString(item.horaF)}</Text>
 						<Text style={styles.txtHoraF}>{timeToLongString(item.horaF-item.horaI)}</Text>
-						{item.days?<Text style={styles.txtHoraF}>{item.days.reduce((string, day, i)=>string+dayToLiteralString(day)+(i===item.days.length-1?'':', '), 'Tambien el ')}</Text>:null}
+						{item.days?<Text style={styles.txtHoraF}>{item.days.reduce((string, day, i)=>string+((day !== new Date().getDay())?dayToLiteralString(day)+(i===item.days.length-1?'':', '):''), 'Tambien el ')}</Text>:null}
 					</View>
 				</View>
 			</View>
