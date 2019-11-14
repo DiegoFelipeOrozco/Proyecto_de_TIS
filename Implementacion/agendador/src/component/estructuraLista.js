@@ -3,7 +3,6 @@ import{
 	StyleSheet,
 	View,
 	Text,
-	Image,
 	Button,
 } from 'react-native';
 import {timeToString, timeToLongString, dayToLiteralString} from '../dateFunctions';

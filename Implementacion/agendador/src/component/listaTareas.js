@@ -7,9 +7,10 @@ import{
 	Button,
 } from 'react-native';
 import TaskForm from '../TaskForm';
-import {dateToString} from '../dateFunctions';
+import {dateToString,timeToLongString} from '../dateFunctions';
 import Header from './header.js';
 import DatabaseController from '../database/controller';
+import {Tarea} from '../database/entidades';
 
 let db = new DatabaseController();
 let dbRead = false;
@@ -50,8 +51,8 @@ export default function ListaTareas(props) {
 	let renderItem = ({item})=>(
 		<View>
 			<Text>{item.name}</Text>
-			<Text>{dateToString(item.fechaLimite)}</Text>
-			<Text>{item.dedicacion}</Text>
+			<Text>{'fecha limite: '+dateToString(item.fechaLimite)}</Text>
+			<Text>{'dedicacion hoy: '+timeToLongString(item.dedicacion)}</Text>
 			<Button title={Boolean(item.completado)?'←': '√'}/>
 			<Button title='eliminar'/>
 		</View>
@@ -70,6 +71,7 @@ export default function ListaTareas(props) {
 			<Button title='añadir' onPress={()=>changeView(form)}/>
 		</>
 	);
+	Tarea.asignarTiempos(tareas, props.rutinasHoy);
 	return(
 		<View style={styles.body}>
 			{view || main}

@@ -1,4 +1,4 @@
-
+import {dateToString} from '../dateFunctions';
 export class Tarea{
 	name: string;
 	fechaLimite: Date;
@@ -37,6 +37,53 @@ export class Tarea{
 			name: this.name,
 			fechaLimite: this.fechaLimite.getTime()
 		};
+	}
+	equals(obj): boolean{
+		if (obj instanceof Tarea){
+			return obj.name === this.name;
+		}
+		return false;
+	}
+	toString(): string{
+		if (this.dedicacion){
+			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite) + '\r\ndedicacion de hoy:' + Math.floor(this.dedicacion) + ' hora(s),' + Math.floor((this.dedicacion%1)*60) + ' minuto(s),' + Math.round(((this.dedicacion%1)*60%1)*60) + ' segundo(s)';
+		} else {
+			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite);
+		}
+	}
+	static asignarTiempos(tareas: Tarea[], rutinas: Rutina[]){
+		let tiempoDisponible = 0;
+		let inicioHueco = new Date(rutinas[0]?rutinas[0].horaI:new Date()).setHours(0, 0);
+		rutinas.forEach((item, i)=>{
+			tiempoDisponible += item.horaI - inicioHueco;
+			inicioHueco = item.horaF;
+		});
+		tiempoDisponible += new Date(inicioHueco).setHours(23,59,59,999) - inicioHueco;
+		let pendientes = tareas.filter((tarea)=>!Boolean(tarea.completada))
+		for(let tarea of tareas) {
+			if (tarea.completada){
+				delete tarea.dedicacion;
+				continue;
+			}
+			let numerador: number = 1;
+			let denominador: number  = 0;
+			for(let i = 0; i < pendientes.length; i++) {
+				if(!pendientes[i].equals(tarea)) {
+					numerador *= (pendientes[i].fechaLimite.getTime() - Date.now()) / 3600000;
+				}
+			}
+			let aux = numerador*(tarea.fechaLimite.getTime() - Date.now()) / 3600000;
+			for(let k = 0; k < pendientes.length; k++){
+				denominador += aux/((pendientes[k].fechaLimite.getTime() - Date.now()) / 3600000);
+			}
+			tarea.dedicacion = numerador / denominador * tiempoDisponible;
+		}
+	}
+	/**
+	genera una clave unica entre tareas
+	*/
+	generateKey(){
+		return this.name;
 	}
 	static buildFromJSON(json){
 		return new Tarea(json.name, new Date(json.fechaLimite));
@@ -99,6 +146,12 @@ export class Rutina{
 			periodicidad:this.periodicidad,
 			days: this.days
 		};
+	}
+	/**
+	genera una clave unica entre rutinas
+	*/
+	generateKey(){
+		return this.name + this.horaI.getHours() + this.horaI.getMinutes() + this.horaI.getSeconds() + this.horaF.getHours() + this.horaF.getMinutes() + this.horaF.getSeconds();
 	}
 	static buildFromJSON(json){
 		return new Rutina(json.name, new Date(json.horaI), new Date(json.horaF), json.periodicidad, json.days);
