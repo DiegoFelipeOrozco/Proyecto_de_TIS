@@ -73,6 +73,9 @@ export class Tarea{
 	generateKey(){
 		return this.name;
 	}
+	static buildFromJSON(json){
+		return new Tarea(json.name, new Date(json.fechaLimite));
+	}
 }
 
 export class Rutina{
@@ -80,7 +83,7 @@ export class Rutina{
 	horaI: Date;
 	horaF: Date;
 	periodicidad: number;
-	contenedor: Date;
+	days: Array;
 	/**
 	constructor principal para Rutina
 	parametros:
@@ -88,11 +91,12 @@ export class Rutina{
 		horaInicio(Date o number): tiempo del dia en el que inicia la rutina, se puede indicar en milisegundos
 		horaFin(Date o number): tiempo del dia en el que finaliza la rutina, se puede indicar en milisegundos
 		periodicidad: 1 para indicar que es diaramente, 7 para indicar que es semanalmente, 30 para indicar que es mensualmente, y 360 para inidicar que es anualmente.
-		contenedor(Date o number): dependiendo del indicador es que se considera solo una parte de la fecha en el contenedor para determinar cuando se ha cumplido el periodo, se puede indicar en milisegundos
+		days(Array): dias de la semana en los que se ejecuta la rutina...es el mismo formato que se usa en Date.getDay():1>=dia>=7 empezando por Lunes
 	*/
-	constructor(nombre: string,horaInicio, horaFin, periodicidad: number, contenedor){
+	constructor(nombre: string,horaInicio, horaFin, periodicidad: number, days){
 		this.name = nombre;
 		this.periodicidad = periodicidad;
+		this.days = days;		
 
 		if (horaInicio instanceof Date) {
 			this.horaI = horaInicio;
@@ -103,11 +107,6 @@ export class Rutina{
 			this.horaF = horaFin;
 		} else {
 			this.horaF = new Date(horaFin);
-		}
-		if (contenedor instanceof Date) {
-			this.contenedor = contenedor;
-		} else {
-			this.contenedor = new Date(contenedor);		
 		}
 	}
 	/**
@@ -133,7 +132,7 @@ export class Rutina{
 			horaI: this.horaI.getTime(),
 			horaF: this.horaF.getTime(),
 			periodicidad:this.periodicidad,
-			contenedor: this.contenedor.getTime()
+			days: this.days
 		};
 	}
 	/**
@@ -141,5 +140,8 @@ export class Rutina{
 	*/
 	generateKey(){
 		return this.name + this.horaI.getHours() + this.horaI.getMinutes() + this.horaI.getSeconds() + this.horaF.getHours() + this.horaF.getMinutes() + this.horaF.getSeconds();
+	}
+	static buildFromJSON(json){
+		return new Rutina(json.name, new Date(json.horaI), new Date(json.horaF), json.periodicidad, json.days);
 	}
 }
