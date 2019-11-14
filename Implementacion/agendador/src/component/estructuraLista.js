@@ -22,9 +22,11 @@ function EstructuraLista(props){
 					</View>
 				</View>
 			</View>
-			<View style={styles.blocRight} >
-				<Button title='eliminar'/>
-			</View>
+			{ props.data.hueco? null:
+				<View style={styles.blocRight} >
+					<Button title='eliminar'/>
+				</View>
+			}
 		</View>
 	);
 };
