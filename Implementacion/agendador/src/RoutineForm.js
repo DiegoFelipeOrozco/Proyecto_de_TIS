@@ -28,9 +28,9 @@ export default function RoutineForm(props){
   function submitEvento(){
     //validaciones de campos
     if (name.trim() === ''){
-      indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>debe indicar el nombre del evento</Text>);
+      indicarError(<Text style={{color: 'red',}}>debe indicar el nombre del evento</Text>);
     } else if (horaF.hora - horaI.hora <= 0){
-      indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>La hora de inicio debe ser menor ni igual a la hora de fin</Text>)
+      indicarError(<Text style={{color: 'red',}}>La hora de inicio debe ser menor ni igual a la hora de fin</Text>)
     } else {
       let nuevaRutina: Rutina = new Rutina(
         name,
@@ -44,7 +44,7 @@ export default function RoutineForm(props){
         (error)=>{
           if(error){
             //notificacion del error
-            indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la rutina</Text>);
+            indicarError(<Text style={{color: 'red',}}>no se puede guardar la rutina</Text>);
           } else {
             props.onSubmit(nuevaRutina);
           }
@@ -52,9 +52,9 @@ export default function RoutineForm(props){
     }
   }
   return(
-    <View>
+    <View style={{flex:1, justifyContent: 'center'}}>
       {error}
-      <Text style={generalStyles.visualViews}>nombre*</Text>
+      <Text style={styles.letterNormal}>nombre*</Text>
       <TextInput style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
       <Button style={generalStyles.visualViews} title={'Hora de inicio: ' + timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
       <View style={generalStyles.separador}></View>
@@ -80,3 +80,9 @@ export default function RoutineForm(props){
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  letterNormal: {
+    fontSize: 15
+  }
+});

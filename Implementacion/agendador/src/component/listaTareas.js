@@ -5,6 +5,7 @@ import{
 	FlatList,
 	Text,
 	Button,
+	ImageBackground,
 } from 'react-native';
 import TaskForm from '../TaskForm';
 import {dateToString,timeToLongString} from '../dateFunctions';
@@ -52,15 +53,26 @@ export default function ListaTareas(props) {
 	}, [tareas]);
 
 	const renderItem = ({item})=>(
-		<View>
-			<Text>{item.name}</Text>
-			<Text>{'fecha limite: '+dateToString(item.fechaLimite)}</Text>
-			<Text>{'dedicacion hoy: '+timeToLongString(item.dedicacion)}</Text>
-			<Button title={Boolean(item.completado)?'←': '√'}/>
-			<Button title='eliminar' onPress={()=>delTareas2((tarea)=>tarea.name === item.name)}/>
+		<View style={{flexDirection: 'row'}}>
+			<View style={styles.blockLeft}>
+				<Text style={{fontSize:20}}>{item.name}</Text>
+				<Text style={{color: 'grey'}}>{'fecha limite: '+dateToString(item.fechaLimite)}</Text>
+				<Text style={{color: 'grey'}}>{'dedicacion hoy: '+timeToLongString(item.dedicacion)}</Text>
+			</View>
+			<View style={styles.blocRight}>
+				<ImageBackground source={require('../../images/delete.png')} style={{width:'100%'}} imageStyle={{resizeMode:'contain',justifyContent:'center'}}>
+					<Button title='' onPress={()=>delTareas2((tarea)=>tarea.name === item.name)} color={'transparent'} style={{flex:'1'}}/>
+				</ImageBackground>
+				<Button title={Boolean(item.completado)?'←': '√'} color={'green'}/>
+			</View>
 		</View>
 	);
-	const form = (<TaskForm onSubmit={(tarea)=>addTarea(tarea)}/>);
+	const form = (
+		<>
+			<Header titulo='Crear Tarea'/>
+			<TaskForm onSubmit={(tarea)=>addTarea(tarea)}/>
+		</>
+	);
 	const main = (
 		<>
 			<Header titulo='Tareas'/>
@@ -93,5 +105,17 @@ const styles = StyleSheet.create({
 		marginVertical:10,
 		alignItems: 'center',
 		marginLeft:'10%'
-	}
+	},
+	blockLeft:{
+		flexDirection: 'column',
+		flex: 3,
+		justifyContent: 'space-around',
+		marginLeft:'5%',
+	},
+	blocRight:{
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginRight: '5%'
+	},
 });

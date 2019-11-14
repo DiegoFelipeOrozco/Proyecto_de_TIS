@@ -5,6 +5,7 @@ import{
 	FlatList,
 	Text,
 	Button,
+	ImageBackground,
 } from 'react-native';
 import EstructuraLista from './estructuraLista.js'
 import RoutineForm from '../RoutineForm';
@@ -54,7 +55,7 @@ export default function VistaRutinas(props) {
 			let inicioHueco = new Date(rutinasHoy[0].horaI).setHours(0, 0);
 			rutinasHoy.forEach((item, i)=>{
 				if (item.horaI - inicioHueco > 0){
-					rutinas$huecos.push({hueco:true, name: 'espacio libre', horaI: new Date(inicioHueco), horaF: item.horaI});
+					rutinas$huecos.push({hueco:true, name: '', horaI: new Date(inicioHueco), horaF: item.horaI});
 				}
 				rutinas$huecos.push(item);
 				inicioHueco = item.horaF;
@@ -68,11 +69,13 @@ export default function VistaRutinas(props) {
 	const renderItem = ({item}) => (
 		<View style={styles.item}>
 			<View style={styles.blockLeft}>
+				<Text style={styles.txtHoraF}>{timeToString(item.horaI)}</Text>
+				<Text style={styles.txtHoraF}>{timeToString(item.horaF)}</Text>
+			</View>
+			<View style={styles.blockCenter}>
 				<Text style={item.hueco?styles.txtHoraF:styles.txtName}>{item.name}</Text>
 				<View style={styles.blockLeftBottom}>
 					<View style={styles.itemHoraF}> 
-						<Text style={styles.txtHoraF}>{timeToString(item.horaI)}</Text>
-						<Text style={styles.txtHoraF}>{timeToString(item.horaF)}</Text>
 						<Text style={styles.txtHoraF}>{timeToLongString(item.horaF-item.horaI)}</Text>
 						{item.days?<Text style={styles.txtHoraF}>{item.days.reduce((string, day, i)=>string+((day !== new Date().getDay())?dayToLiteralString(day)+(i===item.days.length-1?'':', '):''), 'Tambien el ')}</Text>:null}
 					</View>
@@ -80,12 +83,19 @@ export default function VistaRutinas(props) {
 			</View>
 			{ item.hueco? null:
 				<View style={styles.blocRight} >
-					<Button title='eliminar' onPress={()=>delRutinas2((rutina)=>rutina.name === item.name)}/>
+					<ImageBackground source={require('../../images/delete.png')} style={{width:'100%'}} imageStyle={{resizeMode:'contain',justifyContent:'center'}}>
+						<Button title='' onPress={()=>delRutinas2((rutina)=>rutina.name === item.name)} color={'transparent'} elevation={'0'}/>
+					</ImageBackground>
 				</View>
 			}
 		</View>
 	);
-	const form = (<RoutineForm onSubmit={(rutina)=>{changeView(null);addRutina(rutina)}}/>);
+	const form = (
+		<>
+			<Header titulo='Crear Rutina'/>
+			<RoutineForm onSubmit={(rutina)=>{changeView(null);addRutina(rutina)}}/>
+		</>
+	);
 	const main = (
 		<>
 			<Header titulo={'Rutinas('+dayToLiteralString(new Date().getDay())+')'}/>
@@ -96,7 +106,7 @@ export default function VistaRutinas(props) {
 				ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}
 				keyExtractor={(item)=>item.name + item.horaI.getTime()}
 			/>
-			<Button title='añadir' onPress={()=>changeView(form)}/>
+			<Button title='añadir' onPress={()=>changeView(form)} style={{flex:1}}/>
 		</>
 	);
 	return(
@@ -108,7 +118,7 @@ export default function VistaRutinas(props) {
 
 const styles = StyleSheet.create({
 	body:{
-		flex:1
+		flex: 1
 	},
 	separador:{
 		height:1,
@@ -119,14 +129,25 @@ const styles = StyleSheet.create({
 		marginLeft:'10%'
 	},
 	item:{
-		flexDirection:"row"
+		flexDirection:"row",
+		justifyContent: 'space-between',
 	},
 	blockLeft:{
-		flex:4,
-		marginLeft:'5%'
+		flexDirection: 'column',
+		flex: 1,
+		justifyContent: 'space-around',
+		marginLeft:'5%',
+	},
+	blockCenter: {
+		flex: 3,
+		flexDirection: 'column',
+		justifyContent: 'space-around',
 	},
 	blocRight:{
-		flex:1
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-around',
+		marginRight: '5%'
 	},
 	blockLeftBottom:{
 		flexDirection:'row',

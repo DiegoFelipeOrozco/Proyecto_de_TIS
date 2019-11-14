@@ -28,11 +28,10 @@ export const generalStyles = StyleSheet.create({
 		borderRightWidth: 1,
 	},
 	visualViews:{
-		marginTop:10,
 		marginBottom: 10
 	},
 	errors: {
-		color: '#FF0000'
+		color: 'red'
 	},
 	separador: {
 		height: 10,
