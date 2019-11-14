@@ -10,6 +10,10 @@ import EstructuraLista from './estructuraLista.js'
 import RoutineForm from '../RoutineForm';
 import Header from './header.js';
 import {dayToLiteralString} from '../dateFunctions';
+import DatabaseController from '../database/controller';
+
+let db = new DatabaseController();
+let dbRead = false;
 
 /**
 props:
@@ -18,6 +22,12 @@ props:
 export default function VistaRutinas(props) {
 	const [rutinas, setRutinas] = React.useState(props.rutinas || []);
 	const [view, changeView] = React.useState(null);
+	if (!dbRead){
+		db.getRutinas((estado, tareas)=>{
+			dbRead = true;
+			setRutinas(tareas);
+		});
+	}
 	let addRutina = function(rutina){
 		setRutinas(rutinas.concat(rutina).sort((item1, item2)=>item1.horaI-item2.horaI));
 	};

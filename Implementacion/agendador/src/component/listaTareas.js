@@ -9,7 +9,10 @@ import{
 import TaskForm from '../TaskForm';
 import {dateToString} from '../dateFunctions';
 import Header from './header.js';
+import DatabaseController from '../database/controller';
 
+let db = new DatabaseController();
+let dbRead = false;
 /**
 props:
 	tareas: arreglo de todas las tareas
@@ -17,6 +20,12 @@ props:
 export default function ListaTareas(props) {
 	const [tareas, setTareas] = React.useState(props.tareas || []);
 	const [view, changeView] = React.useState(null);
+	if (!dbRead){
+		db.getTareas((estado, tareas)=>{
+			dbRead = true;
+			setTareas(tareas);
+		});
+	}
 	let addTarea = function(tarea){
 		setTareas(tareas.concat(tarea));
 	};
@@ -41,7 +50,7 @@ export default function ListaTareas(props) {
 	let renderItem = ({item})=>(
 		<View>
 			<Text>{item.name}</Text>
-			<Text>{dateToString(item.limite)}</Text>
+			<Text>{dateToString(item.fechaLimite)}</Text>
 			<Text>{item.dedicacion}</Text>
 			<Button title={Boolean(item.completado)?'←': '√'}/>
 			<Button title='eliminar'/>

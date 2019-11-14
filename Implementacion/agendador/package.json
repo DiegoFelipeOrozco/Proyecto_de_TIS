@@ -12,6 +12,8 @@
   "dependencies": {
     "@react-native-community/datetimepicker": "^2.1.0",
     "@react-native-community/viewpager": "2.0.2",
+    "@react-native-firebase/app": "^6.0.2",
+    "@react-native-firebase/database": "^6.0.2",
     "appcenter": "2.5.0",
     "appcenter-analytics": "2.5.0",
     "appcenter-crashes": "2.5.0",
