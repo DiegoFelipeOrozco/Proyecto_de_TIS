@@ -44,7 +44,7 @@ const App: () => React$Node = () => {
 	const [view, changeView] = React.useState(<ViewPager style={{flex: 1}} initialPage={0}><View><VistaRutinas rutinas={rutinas} setRutinas={(rutinas)=>setRutinas(rutinas)}/></View><View><ListaTareas rutinasHoy={rutinas.filter((item)=>item.days.includes(new Date().getDay()))}/></View></ViewPager>);
 	return (
 		<View style={styles.container}>
-			<ViewPager style={{flex: 1}} initialPage={0}><View><VistaRutinas rutinas={rutinas} setRutinas={(rutinas)=>setRutinas(rutinas)}/></View><View><ListaTareas rutinasHoy={rutinas.filter((item)=>item.days.includes(new Date().getDay()))}/></View></ViewPager>
+			<ViewPager style={{flex: 1}} initialPage={0}><View><VistaRutinas rutinas={rutinas} setRutinas={setRutinas}/></View><View><ListaTareas rutinasHoy={rutinas.filter((item)=>item.days.includes(new Date().getDay()))}/></View></ViewPager>
 		</View>
 	);
 };

@@ -57,4 +57,12 @@ export default class DatabaseController{
 			callback(0, rutinas);
 		});
 	}
+
+	removeTarea(key: string, onComplete: function){
+		this.db.ref('/tasks/'+key).remove(onComplete);
+	}
+
+	removeRutina(key, onComplete){
+		this.db.ref('/routines/'+key).remove(onComplete);
+	}
 }

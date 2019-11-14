@@ -42,19 +42,22 @@ export default function ListaTareas(props) {
 	@param selector(function): funcion con parametros (item, index) que retorna true cuando el objeto coincida para eliminacion
 	*/
 	let delTareas2 = function(selector){
-		setTareas(tareas.filter((item, index)=>!selector(item, index)));    
+		setTareas((PTareas)=>{
+			db.removeTarea(PTareas.find((item, index)=>selector(item, index)).name);
+			return PTareas.filter((item, index)=>!selector(item, index))
+		});    
 	};
 	React.useEffect(()=>{
 		changeView(null);
 	}, [tareas]);
 
-	let renderItem = ({item})=>(
+	const renderItem = ({item})=>(
 		<View>
 			<Text>{item.name}</Text>
 			<Text>{'fecha limite: '+dateToString(item.fechaLimite)}</Text>
 			<Text>{'dedicacion hoy: '+timeToLongString(item.dedicacion)}</Text>
 			<Button title={Boolean(item.completado)?'←': '√'}/>
-			<Button title='eliminar'/>
+			<Button title='eliminar' onPress={()=>delTareas2((tarea)=>tarea.name === item.name)}/>
 		</View>
 	);
 	const form = (<TaskForm onSubmit={(tarea)=>addTarea(tarea)}/>);
