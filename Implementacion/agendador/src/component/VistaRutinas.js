@@ -9,7 +9,7 @@ import{
 import EstructuraLista from './estructuraLista.js'
 import RoutineForm from '../RoutineForm';
 import Header from './header.js';
-import {dayToLiteralString} from '../dateFunctions';
+import {timeToString, timeToLongString, dayToLiteralString} from '../dateFunctions';
 import DatabaseController from '../database/controller';
 
 let db = new DatabaseController();
@@ -42,7 +42,9 @@ export default function VistaRutinas(props) {
 	@param selector(function): funcion con parametros (item, index) que retorna true cuando el objeto coincida para eliminacion
 	*/
 	let delRutinas2 = function(selector){
-		props.setRutinas(props.rutinas.filter((item, index)=>!selector(item, index)).sort((item1, item2)=>item1.horaI-item2.horaI));    
+		props.setRutinas((rutinas)=>{
+			return rutinas.filter((item, index)=>!selector(item, index)).sort((item1, item2)=>item1.horaI-item2.horaI)
+		});
 	};
 	let buildData = function(dia){
 		let rutinas$huecos = [];
@@ -62,13 +64,33 @@ export default function VistaRutinas(props) {
 		}
 		return rutinas$huecos;
 	}
+	const renderItem = ({item}) => (
+		<View style={styles.item}>
+			<View style={styles.blockLeft}>
+				<Text style={item.hueco?styles.txtHoraF:styles.txtName}>{item.name}</Text>
+				<View style={styles.blockLeftBottom}>
+					<View style={styles.itemHoraF}> 
+						<Text style={styles.txtHoraF}>{timeToString(item.horaI)}</Text>
+						<Text style={styles.txtHoraF}>{timeToString(item.horaF)}</Text>
+						<Text style={styles.txtHoraF}>{timeToLongString(item.horaF-item.horaI)}</Text>
+						{item.days?<Text style={styles.txtHoraF}>{item.days.reduce((string, day, i)=>string+dayToLiteralString(day)+(i===item.days.length-1?'':', '), 'Tambien el ')}</Text>:null}
+					</View>
+				</View>
+			</View>
+			{ item.hueco? null:
+				<View style={styles.blocRight} >
+					<Button title='eliminar' onPress={()=>delRutinas2((rutina)=>rutina.name === item.name)}/>
+				</View>
+			}
+		</View>
+	);
 	const form = (<RoutineForm onSubmit={(rutina)=>{changeView(null);addRutina(rutina)}}/>);
 	const main = (
 		<>
 			<Header titulo={'Rutinas('+dayToLiteralString(new Date().getDay())+')'}/>
 			<FlatList
 				data={buildData(new Date().getDay())}
-				renderItem={ ({item}) => <EstructuraLista data={item}/>}
+				renderItem={renderItem}
 				ItemSeparatorComponent={()=><View style={styles.separador}></View>}
 				ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}
 				keyExtractor={(item)=>item.name + item.horaI.getTime()}
@@ -94,5 +116,41 @@ const styles = StyleSheet.create({
 		marginVertical:10,
 		alignItems: 'center',
 		marginLeft:'10%'
+	},
+	item:{
+		flexDirection:"row"
+	},
+	blockLeft:{
+		flex:4,
+		marginLeft:'5%'
+	},
+	blocRight:{
+		flex:1
+	},
+	blockLeftBottom:{
+		flexDirection:'row',
+		marginTop:6
+	},
+	logoEvento:{
+		width:57,
+		height:57,
+		resizeMode:'contain',
+		justifyContent:'center'
+	},
+	txtName:{
+		fontSize:20
+	},
+	txtHoraI:{
+		marginLeft:'5%',
+		color:'grey'
+	},
+	txtHoraF:{
+		color:'grey'   
+	},
+	itemHoraI:{
+		marginLeft:'5%'
+	},
+	itemHoraF:{
+		marginLeft:'5%',
 	}
 });
