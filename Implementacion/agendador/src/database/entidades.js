@@ -51,18 +51,30 @@ export class Tarea{
 			return this.name + '\r\nfecha limite:' + dateToString(this.fechaLimite);
 		}
 	}
-	static asignarTiempos(tareas: Tarea[], tiempoDisponible: number){
+	static asignarTiempos(tareas: Tarea[], rutinas: Rutina[]){
+		let tiempoDisponible = 0;
+		let inicioHueco = new Date(rutinas[0]?rutinas[0].horaI:new Date()).setHours(0, 0);
+		rutinas.forEach((item, i)=>{
+			tiempoDisponible += item.horaI - inicioHueco;
+			inicioHueco = item.horaF;
+		});
+		tiempoDisponible += new Date(inicioHueco).setHours(23,59,59,999) - inicioHueco;
+		let pendientes = tareas.filter((tarea)=>!Boolean(tarea.completada))
 		for(let tarea of tareas) {
+			if (tarea.completada){
+				delete tarea.dedicacion;
+				continue;
+			}
 			let numerador: number = 1;
 			let denominador: number  = 0;
-			for(let i = 0; i < tareas.length; i++) {
-				if(!tareas[i].equals(tarea)) {
-					numerador *= (tareas[i].fechaLimite.getTime() - Date.now()) / 3600000;
+			for(let i = 0; i < pendientes.length; i++) {
+				if(!pendientes[i].equals(tarea)) {
+					numerador *= (pendientes[i].fechaLimite.getTime() - Date.now()) / 3600000;
 				}
 			}
 			let aux = numerador*(tarea.fechaLimite.getTime() - Date.now()) / 3600000;
-			for(let k = 0; k < tareas.length; k++){
-				denominador += aux/((tareas[k].fechaLimite.getTime() - Date.now()) / 3600000);
+			for(let k = 0; k < pendientes.length; k++){
+				denominador += aux/((pendientes[k].fechaLimite.getTime() - Date.now()) / 3600000);
 			}
 			tarea.dedicacion = numerador / denominador * tiempoDisponible;
 		}

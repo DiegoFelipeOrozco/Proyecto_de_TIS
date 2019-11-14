@@ -71,7 +71,7 @@ export default function ListaTareas(props) {
 			<Button title='añadir' onPress={()=>changeView(form)}/>
 		</>
 	);
-	Tarea.asignarTiempos(tareas, 24*60*60*1000);
+	Tarea.asignarTiempos(tareas, props.rutinasHoy);
 	return(
 		<View style={styles.body}>
 			{view || main}

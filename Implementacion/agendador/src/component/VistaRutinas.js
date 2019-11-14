@@ -20,36 +20,36 @@ props:
 	tareas: arreglo de todas las tareas
 */
 export default function VistaRutinas(props) {
-	const [rutinas, setRutinas] = React.useState(props.rutinas || []);
 	const [view, changeView] = React.useState(null);
 	if (!dbRead){
 		db.getRutinas((estado, tareas)=>{
 			dbRead = true;
-			setRutinas(tareas);
+			props.setRutinas(tareas);
 		});
 	}
 	let addRutina = function(rutina){
-		setRutinas(rutinas.concat(rutina).sort((item1, item2)=>item1.horaI-item2.horaI));
+		props.setRutinas(props.rutinas.concat(rutina).sort((item1, item2)=>item1.horaI-item2.horaI));
 	};
 	/**
 	elimina varias rutinas
 	@param indices(number): recibe el indice o indices de los elementos a eliminar
 	*/
 	let delRutinas1 = function(...indices){
-		setRutinas(rutinas.filter((item, index)=>!indices.includes(index)).sort((item1, item2)=>item1.horaI-item2.horaI));
+		props.setRutinas(props.rutinas.filter((item, index)=>!indices.includes(index)).sort((item1, item2)=>item1.horaI-item2.horaI));
 	};
 	/**
 	elimina varias rutinas
 	@param selector(function): funcion con parametros (item, index) que retorna true cuando el objeto coincida para eliminacion
 	*/
 	let delRutinas2 = function(selector){
-		setRutinas(rutinas.filter((item, index)=>!selector(item, index)).sort((item1, item2)=>item1.horaI-item2.horaI));    
+		props.setRutinas(props.rutinas.filter((item, index)=>!selector(item, index)).sort((item1, item2)=>item1.horaI-item2.horaI));    
 	};
 	let buildData = function(dia){
 		let rutinas$huecos = [];
-		if (rutinas.length > 0){
-			let inicioHueco = new Date(rutinas[0].horaI).setHours(0, 0);
-			rutinas.filter((item)=>item.days.includes(dia)).forEach((item, i)=>{
+		if (props.rutinas.length > 0){
+			rutinasHoy = props.rutinas.filter((item)=>item.days.includes(dia))
+			let inicioHueco = new Date(rutinasHoy[0].horaI).setHours(0, 0);
+			rutinasHoy.forEach((item, i)=>{
 				if (item.horaI - inicioHueco > 0){
 					rutinas$huecos.push({hueco:true, name: 'espacio libre', horaI: new Date(inicioHueco), horaF: item.horaI});
 				}
@@ -62,10 +62,7 @@ export default function VistaRutinas(props) {
 		}
 		return rutinas$huecos;
 	}
-	React.useEffect(()=>{
-		changeView(null);
-	}, [rutinas]);
-	const form = (<RoutineForm onSubmit={(rutina)=>addRutina(rutina)}/>);
+	const form = (<RoutineForm onSubmit={(rutina)=>{changeView(null);addRutina(rutina)}}/>);
 	const main = (
 		<>
 			<Header titulo={'Rutinas('+dayToLiteralString(new Date().getDay())+')'}/>

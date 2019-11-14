@@ -19,7 +19,7 @@ formato largo del tiempo especialmente util para indicar tiempo relativo a una h
 export function timeToLongString(time){
 	let horas = time/3600000;
 	let minutos = horas%1*60;
-	return (Math.floor(horas)===0?'':Math.floor(horas) + ' hora(s) ') + (Math.round(minutos) === 0?'':Math.round(minutos) + ' minuto(s)');
+	return (Math.floor(horas)===0?'':Math.floor(horas) + ' hora(s) ') + (Math.floor(minutos) === 0?'':Math.floor(minutos) + ' minuto(s)');
 }
 /**
 	callback personalizado para el onChange de <RNDateTimePicker mode='date'/>, este valida todo lo que el componente deberia validar, pero que no lo hace

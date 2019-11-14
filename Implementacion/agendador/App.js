@@ -39,12 +39,12 @@ export const generalStyles = StyleSheet.create({
 		width: 10
 	}
 });
-
 const App: () => React$Node = () => {
-	const [view, changeView] = React.useState(<ViewPager style={{flex: 1}} initialPage={0}><View><VistaRutinas/></View><View><ListaTareas/></View></ViewPager>);
+	const [rutinas, setRutinas] = React.useState([]);
+	const [view, changeView] = React.useState(<ViewPager style={{flex: 1}} initialPage={0}><View><VistaRutinas rutinas={rutinas} setRutinas={(rutinas)=>setRutinas(rutinas)}/></View><View><ListaTareas rutinasHoy={rutinas.filter((item)=>item.days.includes(new Date().getDay()))}/></View></ViewPager>);
 	return (
 		<View style={styles.container}>
-			{view}
+			<ViewPager style={{flex: 1}} initialPage={0}><View><VistaRutinas rutinas={rutinas} setRutinas={(rutinas)=>setRutinas(rutinas)}/></View><View><ListaTareas rutinasHoy={rutinas.filter((item)=>item.days.includes(new Date().getDay()))}/></View></ViewPager>
 		</View>
 	);
 };
