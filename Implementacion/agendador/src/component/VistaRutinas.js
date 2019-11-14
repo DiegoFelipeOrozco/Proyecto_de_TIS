@@ -43,6 +43,7 @@ export default function VistaRutinas(props) {
 	*/
 	let delRutinas2 = function(selector){
 		props.setRutinas((rutinas)=>{
+			db.removeRutina(rutinas.find((item, index)=>selector(item, index)).name);
 			return rutinas.filter((item, index)=>!selector(item, index)).sort((item1, item2)=>item1.horaI-item2.horaI)
 		});
 	};

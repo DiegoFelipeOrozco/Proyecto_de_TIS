@@ -42,7 +42,10 @@ export default function ListaTareas(props) {
 	@param selector(function): funcion con parametros (item, index) que retorna true cuando el objeto coincida para eliminacion
 	*/
 	let delTareas2 = function(selector){
-		setTareas(tareas.filter((item, index)=>!selector(item, index)));    
+		setTareas((PTareas)=>{
+			db.removeTarea(PTareas.find((item, index)=>selector(item, index)).name);
+			return PTareas.filter((item, index)=>!selector(item, index))
+		});    
 	};
 	React.useEffect(()=>{
 		changeView(null);
