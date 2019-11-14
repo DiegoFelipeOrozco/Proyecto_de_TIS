@@ -38,6 +38,9 @@ export class Tarea{
 			fechaLimite: this.fechaLimite.getTime()
 		};
 	}
+	static buildFromJSON(json){
+		return new Tarea(json.name, new Date(json.fechaLimite));
+	}
 }
 
 export class Rutina{
@@ -96,5 +99,8 @@ export class Rutina{
 			periodicidad:this.periodicidad,
 			days: this.days
 		};
+	}
+	static buildFromJSON(json){
+		return new Rutina(json.name, new Date(json.horaI), new Date(json.horaF), json.periodicidad, json.days);
 	}
 }

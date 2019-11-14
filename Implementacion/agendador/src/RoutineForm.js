@@ -18,6 +18,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import DatabaseController from './database/controller';
 import {Rutina} from './database/entidades';
 
+let db = new DatabaseController();
 export default function RoutineForm(props){
   const [error, indicarError] = React.useState(null);
   const [name, setName] = React.useState('');
@@ -38,7 +39,7 @@ export default function RoutineForm(props){
         7,//periodicidad semanal mientras se diseña la interfaz para el usuario
         [1,2,3,4,5,6,7]
       );
-      new DatabaseController().insertRoutine(
+      db.insertRoutine(
         nuevaRutina, 
         (error)=>{
           if(error){

@@ -18,6 +18,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import DatabaseController from './database/controller';
 import {Tarea} from './database/entidades';
 
+let db = new DatabaseController();
 export default function TaskForm(props){
   const [error, indicarError] = React.useState(null);
   const [pickerState, setPickerState] = React.useState({fecha: new Date(), show: false});
@@ -29,7 +30,7 @@ export default function TaskForm(props){
       indicarError(<Text style={generalStyles.errors}>debe indicar el nombre de la tarea</Text>);
     } else {
       let nuevaTarea: Tarea = new Tarea(name, inicioDia(pickerState.fecha));
-      new DatabaseController().insertTask(nuevaTarea, 
+      db.insertTask(nuevaTarea, 
         (error)=>{
           if(error){
             //notificacion del error
