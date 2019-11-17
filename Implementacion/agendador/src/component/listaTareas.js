@@ -60,10 +60,10 @@ export default function ListaTareas(props) {
 				<Text style={{color: 'grey'}}>{'dedicacion hoy: '+timeToLongString(item.dedicacion)}</Text>
 			</View>
 			<View style={styles.blocRight}>
-				<ImageBackground source={require('../../images/delete.png')} style={{width:'100%'}} imageStyle={{resizeMode:'contain',justifyContent:'center'}}>
-					<Button title='' onPress={()=>delTareas2((tarea)=>tarea.name === item.name)} color={'transparent'} style={{flex:'1'}}/>
+				<ImageBackground source={require('../../images/delete.png')} style={{width:'100%', flex:1}} imageStyle={{resizeMode:'contain',justifyContent:'center'}}>
+					<Button title='' onPress={()=>delTareas2((tarea)=>tarea.name === item.name)} color={'transparent'}/>
 				</ImageBackground>
-				<Button title={Boolean(item.completado)?'←': '√'} color={'green'}/>
+				<Button title={Boolean(item.completado)?'←': '√'} color={'green'} style={{flex:1}}/>
 			</View>
 		</View>
 	);
@@ -83,7 +83,7 @@ export default function ListaTareas(props) {
 				ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}
 				keyExtractor={(item)=>item.name}
 			/>
-			<Button title='añadir' onPress={()=>changeView(form)}/>
+			<Button title='añadir' onPress={()=>changeView(form)} color='green' />
 		</>
 	);
 	Tarea.asignarTiempos(tareas, props.rutinasHoy);
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
 	separador:{
 		height:1,
 		width:'80%',
-		backgroundColor:'grey',
+		backgroundColor:'blue',
 		marginVertical:10,
 		alignItems: 'center',
 		marginLeft:'10%'
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'space-around',
+		alignItems: 'center',
 		marginRight: '5%'
 	},
 });

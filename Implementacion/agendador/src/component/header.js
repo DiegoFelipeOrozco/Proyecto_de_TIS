@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 	header:{
 		height: 50,
 		flexDirection: 'row',
-		backgroundColor:'red',
+		backgroundColor:'green',
 		marginBottom:6
 	},
 	headerLeft:{
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 	},
 	textLogo:{
 		fontSize:30,
-		color: '#FFF',
+		color: 'white',
 		fontWeight: "bold"
 	},
 	logoHeader:{

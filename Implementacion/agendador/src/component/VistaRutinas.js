@@ -77,14 +77,14 @@ export default function VistaRutinas(props) {
 				<View style={styles.blockLeftBottom}>
 					<View style={styles.itemHoraF}> 
 						<Text style={styles.txtHoraF}>{timeToLongString(item.horaF-item.horaI)}</Text>
-						{item.days?<Text style={styles.txtHoraF}>{item.days.reduce((string, day, i)=>string+((day !== new Date().getDay())?dayToLiteralString(day)+(i===item.days.length-1?'':', '):''), 'Tambien el ')}</Text>:null}
+						{item.days?<Text style={styles.txtHoraF}>{item.days.reduce((string, day, i)=>string+((day !== new Date().getDay())?dayToLiteralString(day, true)+(i===item.days.length-1?'':', '):''), 'Tambien el ')}</Text>:null}
 					</View>
 				</View>
 			</View>
 			{ item.hueco? null:
 				<View style={styles.blocRight} >
 					<ImageBackground source={require('../../images/delete.png')} style={{width:'100%'}} imageStyle={{resizeMode:'contain',justifyContent:'center'}}>
-						<Button title='' onPress={()=>delRutinas2((rutina)=>rutina.name === item.name)} color={'transparent'} elevation={'0'}/>
+						<Button title='' onPress={()=>delRutinas2((rutina)=>rutina.name === item.name)} color={'transparent'}/>
 					</ImageBackground>
 				</View>
 			}
@@ -106,7 +106,7 @@ export default function VistaRutinas(props) {
 				ListEmptyComponent={<Text style={{color:'grey', fontSize:20, textAlign:'center', marginTop:'60%'}}>Lista Vacia</Text>}
 				keyExtractor={(item)=>item.name + item.horaI.getTime()}
 			/>
-			<Button title='añadir' onPress={()=>changeView(form)} style={{flex:1}}/>
+			<Button title='añadir' onPress={()=>changeView(form)} color='green'/>
 		</>
 	);
 	return(
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
 	separador:{
 		height:1,
 		width:'80%',
-		backgroundColor:'grey',
+		backgroundColor:'blue',
 		marginVertical:10,
 		alignItems: 'center',
 		marginLeft:'10%'
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
 		marginLeft:'5%',
 	},
 	blockCenter: {
-		flex: 3,
+		flex: 2,
 		flexDirection: 'column',
 		justifyContent: 'space-around',
 	},
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'space-around',
+		alignItems: 'center',
 		marginRight: '5%'
 	},
 	blockLeftBottom:{
