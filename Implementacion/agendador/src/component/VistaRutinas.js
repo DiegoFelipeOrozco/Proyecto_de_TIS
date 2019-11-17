@@ -52,7 +52,7 @@ export default function VistaRutinas(props) {
 		let rutinas$huecos = [];
 		if (props.rutinas.length > 0){
 			rutinasHoy = props.rutinas.filter((item)=>item.days.includes(dia))
-			let inicioHueco = new Date(rutinasHoy[0].horaI).setHours(0, 0);
+			let inicioHueco = new Date(rutinasHoy[0]?rutinasHoy[0].horaI:new Date()).setHours(0, 0);
 			rutinasHoy.forEach((item, i)=>{
 				if (item.horaI - inicioHueco > 0){
 					rutinas$huecos.push({hueco:true, name: '', horaI: new Date(inicioHueco), horaF: item.horaI});

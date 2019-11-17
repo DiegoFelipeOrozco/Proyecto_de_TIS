@@ -37,7 +37,7 @@ export default function RoutineForm(props){
         horaI.hora,
         horaF.hora,
         7,//periodicidad semanal mientras se diseña la interfaz para el usuario
-        [1,2,3,4,5,6,7]
+        [0,1,2,3,4,5,6]
       );
       db.insertRoutine(
         nuevaRutina, 
