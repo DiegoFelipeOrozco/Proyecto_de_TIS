@@ -25,7 +25,7 @@ export default function VistaRutinas(props) {
 	if (!dbRead){
 		db.getRutinas((estado, tareas)=>{
 			dbRead = true;
-			props.setRutinas(tareas);
+			props.setRutinas(tareas.sort((item1, item2)=>item1.horaI-item2.horaI));
 		});
 	}
 	let addRutina = function(rutina){
