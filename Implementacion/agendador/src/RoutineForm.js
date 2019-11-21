@@ -56,11 +56,11 @@ export default function RoutineForm(props){
       {error}
       <Text style={styles.letterNormal}>nombre*</Text>
       <TextInput style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
-      <Button style={generalStyles.visualViews} title={'Hora de inicio: ' + timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
+      <Button color='green' style={{flex:1}} title={'Hora de inicio: ' + timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
       <View style={generalStyles.separador}></View>
-      <Button style={generalStyles.visualViews} title={'Hora de fin: ' + timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
+      <Button color='green' style={{flex:1}} title={'Hora de fin: ' + timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
       <View style={generalStyles.separador}></View>
-      <Button style={{marginTop: 10, marginBottom: 10}} title='Terminado' onPress={()=>submitEvento()} testID='submit'/>
+      <Button color='green' style={{flex:1}} title='Terminado' onPress={()=>submitEvento()} testID='submit'/>
       {horaI.show && <DateTimePicker 
                           value={horaI.hora | new Date()}
                           mode='time'
