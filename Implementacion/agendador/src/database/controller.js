@@ -35,6 +35,10 @@ export default class DatabaseController{
 	retorna(Promise): la promesa de la operacion, sobre la cual tambien se pueden adjuntar callbacks manualmente
 	*/
 	insertRoutine(routine: Rutina, onComplete: function){
+		/*purificacion de los datos*/
+		routine.horaI.setFullYear(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+		routine.horaF.setFullYear(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+		/*fin purificacion de los datos*/
 		return this.db.ref('/routines/'+routine.name).set(routine.toSimpleObject(), onComplete);
 	}
 
