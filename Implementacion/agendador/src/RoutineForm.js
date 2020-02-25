@@ -9,7 +9,8 @@ import {
   View,
   Text,
   Button,
-  TextInput
+  TextInput,
+  CheckBox
 } from 'react-native';
 
 import generalStyles from '../App';
@@ -52,15 +53,40 @@ export default function RoutineForm(props){
     }
   }
   return(
-    <View style={{flex:1, justifyContent: 'center'}}>
+    <View style={{flex:1}}>
       {error}
-      <Text style={styles.letterNormal}>nombre*</Text>
-      <TextInput style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
-      <Button color='green' style={{flex:1}} title={'Hora de inicio: ' + timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
-      <View style={generalStyles.separador}></View>
-      <Button color='green' style={{flex:1}} title={'Hora de fin: ' + timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
-      <View style={generalStyles.separador}></View>
-      <Button color='green' style={{flex:1}} title='Terminado' onPress={()=>submitEvento()} testID='submit'/>
+      <TextInput placeholder='Nombre' style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
+      <Text style={{fontSize: 20}}>Horario</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+        <Text style={{textAlignVertical: 'center', textAlign: 'center'}}>De</Text>
+        <Button color='green' title={timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
+        <Text style={{textAlignVertical: 'center', textAlign: 'center'}}>Hasta</Text>
+        <Button color='green' title={timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
+      </View>
+      <Text style={{fontSize: 20}}>Frecuencia</Text>
+      <View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text>Lun</Text>
+          <Text>Mar</Text>
+          <Text>Mie</Text>
+          <Text>Jue</Text>
+          <Text>Vie</Text>
+          <Text>Sab</Text>
+          <Text>Dom</Text>
+        </View>
+      </View>
+      <Button color='green' title='Terminado' onPress={()=>submitEvento()} testID='submit'/>
+      {/*<Button color='red' title='Cancelar' testID='cancelar'/>*/}
+
       {horaI.show && <DateTimePicker 
                           value={horaI.hora | new Date()}
                           mode='time'
@@ -80,9 +106,3 @@ export default function RoutineForm(props){
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  letterNormal: {
-    fontSize: 15
-  }
-});

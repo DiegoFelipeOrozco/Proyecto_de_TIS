@@ -36,6 +36,9 @@ export const generalStyles = StyleSheet.create({
 	separador: {
 		height: 10,
 		width: 10
+	},
+	letterNormal: {
+		fontSize: 20
 	}
 });
 const App: () => React$Node = () => {
