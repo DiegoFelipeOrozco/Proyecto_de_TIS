@@ -12,23 +12,3 @@
 <p>(<b>minor</b>): indican funcionalidad menor cubierta en la versión de software entregada.</p>
 <p>(<b>revision</b>): se modifican cuando hay revisiones de código ante fallos de la aplicación.</p>
 <p>para mayor informacion visite <a href="http://www.juntadeandalucia.es/servicios/madeja/contenido/libro-pautas/148">esta pagina</a></p>
-
-# Buenas Practicas de programacion a implementar
-<ol>
-<li> Usa ESLint </li>
-<li> Agregar archivo .eslintrc para que ESLint reconozca las reglas </li>
-<li> Colocar comentarios </li>
-<li> Utilice === en vez de == </li>
-<li> No omitir los punto y coma(;) de las sentencias </li>
-<li> Declara las variables fuera de la sentencia FOR </li>
-<li> Reducir variables globales </li>
-<li> Usar {} en vez de New Object() </li>
-<li> Utiliza comillas simples como delimitadores externos </li>
-<li> Usar [] en vez de New Array() </li>
-<li> Diseñar componentes reusables y reusarlos </li>
-<li> Adoptar la terminología de los clientes </li>
-<li> No manipule el estado de los componente directamente, use los metodos que provee React </li>
-<li> Usar la forma del metodo setState(function) para manejar la asincronia de los states y props </li>
-<li> Usar const y let en lugar de var </li>
-<li> Declarar las variables en la parte superior de su ámbito </li>
-</ol>
