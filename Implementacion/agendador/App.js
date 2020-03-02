@@ -28,7 +28,7 @@ export const generalStyles = StyleSheet.create({
 		borderRightWidth: 1,
 	},
 	visualViews:{
-		marginBottom: 10
+		marginVertical:20,
 	},
 	errors: {
 		color: 'red'

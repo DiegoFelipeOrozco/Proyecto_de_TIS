@@ -93,7 +93,7 @@ export default function VistaRutinas(props) {
 	const form = (
 		<>
 			<Header titulo='Crear Rutina'/>
-			<RoutineForm onSubmit={(rutina)=>{changeView(null);addRutina(rutina)}}/>
+			<RoutineForm onSubmit={(rutina)=>{changeView(null);addRutina(rutina)}} cancel={()=>changeView(null)}/>
 		</>
 	);
 	const main = (

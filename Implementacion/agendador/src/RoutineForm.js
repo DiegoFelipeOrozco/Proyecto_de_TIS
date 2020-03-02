@@ -29,9 +29,9 @@ export default function RoutineForm(props){
   function submitEvento(){
     //validaciones de campos
     if (name.trim() === ''){
-      indicarError(<Text style={{color: 'red',}}>debe indicar el nombre del evento</Text>);
+      indicarError('Debe indicar el nombre del evento');
     } else if (horaF.hora - horaI.hora <= 0){
-      indicarError(<Text style={{color: 'red',}}>La hora de inicio debe ser menor ni igual a la hora de fin</Text>)
+      indicarError('La hora de inicio debe ser menor ni igual a la hora de fin');
     } else {
       let nuevaRutina: Rutina = new Rutina(
         name,
@@ -45,7 +45,7 @@ export default function RoutineForm(props){
         (error)=>{
           if(error){
             //notificacion del error
-            indicarError(<Text style={{color: 'red',}}>no se puede guardar la rutina</Text>);
+            indicarError('No se puede guardar la rutina');
           } else {
             props.onSubmit(nuevaRutina);
           }
@@ -53,18 +53,18 @@ export default function RoutineForm(props){
     }
   }
   return(
-    <View style={{flex:1}}>
-      {error}
-      <TextInput placeholder='Nombre' style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
+    <View style={{flex:1, paddingHorizontal: 5}}>
+      <Text style={{color: 'red'}}>{error}</Text>
+      <TextInput placeholder='Nombre' style={StyleSheet.flatten([{marginVertical:10}, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
       <Text style={{fontSize: 20}}>Horario</Text>
-      <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+      <View style={StyleSheet.flatten([{marginVertical:10}, {flexDirection: 'row', justifyContent: 'space-around'}])}>
         <Text style={{textAlignVertical: 'center', textAlign: 'center'}}>De</Text>
         <Button color='green' title={timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
         <Text style={{textAlignVertical: 'center', textAlign: 'center'}}>Hasta</Text>
         <Button color='green' title={timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
       </View>
       <Text style={{fontSize: 20}}>Frecuencia</Text>
-      <View>
+      <View style={{marginVertical:10}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <CheckBox value={false}/>
           <CheckBox value={false}/>
@@ -84,8 +84,8 @@ export default function RoutineForm(props){
           <Text>Dom</Text>
         </View>
       </View>
-      <Button color='green' title='Terminado' onPress={()=>submitEvento()} testID='submit'/>
-      {/*<Button color='red' title='Cancelar' testID='cancelar'/>*/}
+      <View style={{marginVertical:10}}><Button color='green' title='Listo' onPress={()=>submitEvento()} testID='submit'/></View>
+      <View style={{marginVertical:10}}><Button color='red' title='Cancelar' onPress={props.cancel} testID='cancelar'/></View>
 
       {horaI.show && <DateTimePicker 
                           value={horaI.hora | new Date()}
