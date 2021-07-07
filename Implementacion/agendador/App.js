@@ -28,15 +28,17 @@ export const generalStyles = StyleSheet.create({
 		borderRightWidth: 1,
 	},
 	visualViews:{
-		marginTop:10,
-		marginBottom: 10
+		marginVertical:20,
 	},
 	errors: {
-		color: '#FF0000'
+		color: 'red'
 	},
 	separador: {
 		height: 10,
 		width: 10
+	},
+	letterNormal: {
+		fontSize: 20
 	}
 });
 const App: () => React$Node = () => {

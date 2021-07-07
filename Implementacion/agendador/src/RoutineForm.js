@@ -9,7 +9,8 @@ import {
   View,
   Text,
   Button,
-  TextInput
+  TextInput,
+  CheckBox
 } from 'react-native';
 
 import generalStyles from '../App';
@@ -28,23 +29,23 @@ export default function RoutineForm(props){
   function submitEvento(){
     //validaciones de campos
     if (name.trim() === ''){
-      indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>debe indicar el nombre del evento</Text>);
+      indicarError('Debe indicar el nombre del evento');
     } else if (horaF.hora - horaI.hora <= 0){
-      indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>La hora de inicio debe ser menor ni igual a la hora de fin</Text>)
+      indicarError('La hora de inicio debe ser menor ni igual a la hora de fin');
     } else {
       let nuevaRutina: Rutina = new Rutina(
         name,
         horaI.hora,
         horaF.hora,
         7,//periodicidad semanal mientras se diseña la interfaz para el usuario
-        [1,2,3,4,5,6,7]
+        [0,1,2,3,4,5,6]
       );
       db.insertRoutine(
         nuevaRutina, 
         (error)=>{
           if(error){
             //notificacion del error
-            indicarError(<Text style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.errors])}>no se puede guardar la rutina</Text>);
+            indicarError('No se puede guardar la rutina');
           } else {
             props.onSubmit(nuevaRutina);
           }
@@ -52,15 +53,40 @@ export default function RoutineForm(props){
     }
   }
   return(
-    <View>
-      {error}
-      <Text style={generalStyles.visualViews}>nombre*</Text>
-      <TextInput style={StyleSheet.flatten([generalStyles.visualViews, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
-      <Button style={generalStyles.visualViews} title={'Hora de inicio: ' + timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
-      <View style={generalStyles.separador}></View>
-      <Button style={generalStyles.visualViews} title={'Hora de fin: ' + timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
-      <View style={generalStyles.separador}></View>
-      <Button style={{marginTop: 10, marginBottom: 10}} title='Terminado' onPress={()=>submitEvento()} testID='submit'/>
+    <View style={{flex:1, paddingHorizontal: 5}}>
+      <Text style={{color: 'red'}}>{error}</Text>
+      <TextInput placeholder='Nombre' style={StyleSheet.flatten([{marginVertical:10}, generalStyles.borderBlue])} onChangeText={name => {setName(name)}} testID='nombre'/>
+      <Text style={{fontSize: 20}}>Horario</Text>
+      <View style={StyleSheet.flatten([{marginVertical:10}, {flexDirection: 'row', justifyContent: 'space-around'}])}>
+        <Text style={{textAlignVertical: 'center', textAlign: 'center'}}>De</Text>
+        <Button color='green' title={timeToString(horaI.hora)} onPress={()=>setHoraI(hora=>({...hora, show: true}))} testID='horaInicio'/>
+        <Text style={{textAlignVertical: 'center', textAlign: 'center'}}>Hasta</Text>
+        <Button color='green' title={timeToString(horaF.hora)} onPress={()=>setHoraF(hora=>({...hora, show:true}))} testID='horaFin'/>
+      </View>
+      <Text style={{fontSize: 20}}>Frecuencia</Text>
+      <View style={{marginVertical:10}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+          <CheckBox value={false}/>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text>Lun</Text>
+          <Text>Mar</Text>
+          <Text>Mie</Text>
+          <Text>Jue</Text>
+          <Text>Vie</Text>
+          <Text>Sab</Text>
+          <Text>Dom</Text>
+        </View>
+      </View>
+      <View style={{marginVertical:10}}><Button color='green' title='Listo' onPress={()=>submitEvento()} testID='submit'/></View>
+      <View style={{marginVertical:10}}><Button color='red' title='Cancelar' onPress={props.cancel} testID='cancelar'/></View>
+
       {horaI.show && <DateTimePicker 
                           value={horaI.hora | new Date()}
                           mode='time'

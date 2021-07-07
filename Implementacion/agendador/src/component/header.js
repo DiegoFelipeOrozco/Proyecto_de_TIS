@@ -21,9 +21,9 @@ function Header(props){
 
 const styles = StyleSheet.create({
 	header:{
-		flex: 0.1,
+		height: 50,
 		flexDirection: 'row',
-		backgroundColor:'red',
+		backgroundColor:'green',
 		marginBottom:6
 	},
 	headerLeft:{
@@ -36,12 +36,11 @@ const styles = StyleSheet.create({
 	},
 	textLogo:{
 		fontSize:30,
-		color: '#FFF',
+		color: 'white',
 		fontWeight: "bold"
 	},
 	logoHeader:{
-		width:57,
-		height:57,
+		flex:1,
 		borderRadius:50,
 		resizeMode:'contain',
 		justifyContent:'center'

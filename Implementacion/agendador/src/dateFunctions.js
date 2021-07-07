@@ -42,22 +42,22 @@ export function inicioDia(dia){
 retorna el string del numero de dia de la semana pasado
 @param day(number): 1>=day>=7
 */
-export function dayToLiteralString(day){
+export function dayToLiteralString(day, corto){
 	switch(day){
+		case 0:
+			return corto?'Dom':'Domingo';
 		case 1:
-			return 'Lunes';
+			return corto?'Lun':'Lunes';
 		case 2:
-			return 'Martes';
+			return corto?'Mar':'Martes';
 		case 3:
-			return 'Miercoles';
+			return corto?'Mie':'Miercoles';
 		case 4:
-			return 'Jueves';
+			return corto?'Jue':'Jueves';
 		case 5:
-			return 'Viernes';
+			return corto?'Vie':'Viernes';
 		case 6:
-			return 'Sabado';
-		case 7:
-			return 'Domingo';
+			return corto?'Sab':'Sabado';
 		default:
 			throw new Error('el argumento day es invalido...debe ser 1>=day>=7');
 	}

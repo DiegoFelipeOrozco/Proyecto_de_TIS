@@ -154,6 +154,11 @@ export class Rutina{
 		return this.name + this.horaI.getHours() + this.horaI.getMinutes() + this.horaI.getSeconds() + this.horaF.getHours() + this.horaF.getMinutes() + this.horaF.getSeconds();
 	}
 	static buildFromJSON(json){
-		return new Rutina(json.name, new Date(json.horaI), new Date(json.horaF), json.periodicidad, json.days);
+		rutina = new Rutina(json.name, new Date(json.horaI), new Date(json.horaF), json.periodicidad, json.days);
+		/*purificacion de los datos*/
+		rutina.horaI.setFullYear(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+		rutina.horaF.setFullYear(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+		/*fin purificacion de los datos*/
+		return rutina;
 	}
 }
